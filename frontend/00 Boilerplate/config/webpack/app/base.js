@@ -13,6 +13,7 @@ module.exports = merge(common, {
     ],
     vendor: [
       'babel-polyfill',
+      'lc-form-validation',
       'react',
       'react-dom',
       'react-hot-loader',
@@ -22,6 +23,7 @@ module.exports = merge(common, {
     appStyles: [
     ],
     vendorStyles: [
+      '../node_modules/bootstrap/dist/css/bootstrap.css'
     ],
   },
 
