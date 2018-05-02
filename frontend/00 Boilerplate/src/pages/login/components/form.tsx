@@ -7,20 +7,20 @@ export const Form: React.StatelessComponent<FormProps> = (props) => (
     <fieldset>
       <Input
         name="login"
-        label="login"
+        label="Login"
         onChange={props.updateField}
         placeholder="E-mail"
         value={props.loginEntity.login}
         error={props.loginFormErrors.login.errorMessage}
       />
       <Input
+        type="password"
         name="password"
-        label="password"
+        label="Password"
         onChange={props.updateField}
         placeholder="password"
         value={props.loginEntity.password}
         error={props.loginFormErrors.password.errorMessage}
-        type="password"
       />
       <button
         type="button"
