@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormProps } from './formProps';
-import { Input } from '../../../common/components/form';
+import { Input, Button } from '../../../common/components/form';
 
 export const Form: React.StatelessComponent<FormProps> = (props) => (
   <form role="form">
@@ -22,13 +22,10 @@ export const Form: React.StatelessComponent<FormProps> = (props) => (
         value={props.loginEntity.password}
         error={props.loginFormErrors.password.errorMessage}
       />
-      <button
-        type="button"
-        className="btn btn-lg btn-success btn-block"
+      <Button
         onClick={props.doLogin}
-      >
-        Login
-      </button>
+        label="Login"
+      />
     </fieldset>
   </form>
 );
