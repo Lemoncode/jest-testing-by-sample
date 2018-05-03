@@ -7,6 +7,9 @@ import {
 import { validations } from './validations';
 import { LoginPage } from './page';
 import { routes } from '../../common/constants/routes';
+import { login } from '../../rest-api/api/login';
+import { mapLoginEntityVMToModel } from './mappers';
+import { FieldValidationResult } from 'lc-form-validation';
 
 interface State {
   loginEntity: LoginEntity;
@@ -38,12 +41,30 @@ export class LoginPageContainer extends React.PureComponent<{}, State> {
   doLogin = () => {
     validations.validateForm(this.state.loginEntity)
       .then((formValidationResult) => {
-        if (formValidationResult.succeeded) {
-          history.push(routes.members);
-        } else {
-          alert('error, review the fields');
-        }
+        formValidationResult.succeeded ?
+          this.loginRequest() :
+          this.displayErrors(formValidationResult.fieldErrors);
       });
+  }
+
+  loginRequest = () => {
+    const loginEntity = mapLoginEntityVMToModel(this.state.loginEntity);
+    login(loginEntity)
+      .then(() => {
+        history.push(routes.members);
+      })
+      .catch(alert);
+  }
+
+  displayErrors = (fieldErrors: FieldValidationResult[]) => {
+    const loginFormErrors = fieldErrors.reduce((errors, fieldValidationResult) => ({
+      ...errors,
+      [fieldValidationResult.key]: fieldValidationResult,
+    }), createEmptyLoginFormErrors());
+
+    this.setState({
+      loginFormErrors,
+    });
   }
 
   render() {
