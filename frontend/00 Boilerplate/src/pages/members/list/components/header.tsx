@@ -1,7 +1,17 @@
 import * as React from 'react';
 
 export const Header: React.StatelessComponent = (props) => (
-  <div>
-    Header
-  </div>
+  <thead>
+    <tr>
+      <th>
+        Avatar
+      </th>
+      <th>
+        Id
+      </th>
+      <th>
+        Name
+      </th>
+    </tr>
+  </thead>
 );
