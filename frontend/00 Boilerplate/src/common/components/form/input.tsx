@@ -25,7 +25,7 @@ export const Input: React.StatelessComponent<Props> = (props) => (
         onBlur={props.onBlur}
       />
       {
-        hasError(props.error) &&
+        Boolean(props.error) &&
         <div className="invalid-feedback">
           {props.error}
         </div>
@@ -34,10 +34,8 @@ export const Input: React.StatelessComponent<Props> = (props) => (
   </div>
 );
 
-const hasError = (error: string): boolean => error && error.length > 0;
-
 const buildErrorClass = (error: string): string => (
-  hasError(error) ?
+  Boolean(error) ?
     'is-invalid' :
     ''
 );
