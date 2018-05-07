@@ -9,7 +9,8 @@
     "jsx": "react",
     "noLib": false,
     "allowJs": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "exclude": [

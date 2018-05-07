@@ -13,15 +13,20 @@ module.exports = merge(common, {
     ],
     vendor: [
       'babel-polyfill',
+      'lc-form-validation',
       'react',
       'react-dom',
       'react-hot-loader',
+      'react-redux',
       'react-router',
+      'redux',
+      'redux-thunk',
       'whatwg-fetch',
     ],
     appStyles: [
     ],
     vendorStyles: [
+      '../node_modules/bootstrap/dist/css/bootstrap.css'
     ],
   },
 

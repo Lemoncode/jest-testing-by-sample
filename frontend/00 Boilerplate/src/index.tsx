@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { AppRouter } from './appRouter';
+import { AppProvider } from './appProvider';
 
 const render = (Component) => {
   ReactDOM.render(
@@ -12,10 +12,10 @@ const render = (Component) => {
   );
 };
 
-render(AppRouter);
+render(AppProvider);
 
 if (module.hot) {
-  module.hot.accept('./appRouter', () => {
-    render(AppRouter);
+  module.hot.accept('./appProvider', () => {
+    render(AppProvider);
   });
 }
