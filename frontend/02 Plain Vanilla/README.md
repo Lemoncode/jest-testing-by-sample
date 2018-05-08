@@ -5,7 +5,10 @@ In this sample we are going to testing Plain Vanilla JavaScript files.
 We will start from sample _01 Add config_.
 
 Summary steps:
- - .
+ - Remove sample spec.
+ - Add login mappers specs.
+ - Add login validations specs.
+ - Add member list mappers specs.
 
 # Steps to build it
 
