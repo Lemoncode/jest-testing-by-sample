@@ -12,6 +12,7 @@ Summary steps:
  - Adding Jest configuration.
  - Adding TypeScript configuration.
  - Adding sample unit test.
+ - External jest config file.
 
 # Steps to build it
 
@@ -243,6 +244,109 @@ describe('Sample tests', () => {
 +   expect(false).toBeTruthy();
 + });
 });
+
+```
+
+## External jest config file
+
+One step over, we could be moved jest config outside `package.json` to improve maintainability.
+
+- Move config to `config/test/jest.json` file:
+
+### ./package.json
+```diff
+...
+- },
++ }
+- "jest": {
+-   "testRegex": "\\.spec\\.tsx?$",
+-   "moduleFileExtensions": [
+-     "js",
+-     "jsx",
+-     "json",
+-     "ts",
+-     "tsx"
+-   ],
+-   "setupFiles": [
+-     "<rootDir>/config/test/polyfills.js"
+-   ],
+-   "transform": {
+-      ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+-   }
+- }
+}
+
+```
+
+### ./config/test/jest.json
+```json
+{
+  "testRegex": "\\.spec\\.tsx?$",
+  "moduleFileExtensions": [
+    "js",
+    "jsx",
+    "json",
+    "ts",
+    "tsx"
+  ],
+  "setupFiles": [
+    "<rootDir>/config/test/polyfills.js"
+  ],
+  "transform": {
+    ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  }
+}
+
+```
+
+- We only need a little detail to keep working with that Jest config
+
+- Update `rootDir`:
+
+### ./config/test/jest.json
+```diff
+{
++ "rootDir": "../../",
+  "testRegex": "\\.spec\\.tsx?$",
+  "moduleFileExtensions": [
+    "js",
+    "jsx",
+    "json",
+    "ts",
+    "tsx"
+  ],
+  "setupFiles": [
+    "<rootDir>/config/test/polyfills.js"
+  ],
+  "transform": {
+    ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  }
+}
+
+```
+
+- And use that file:
+
+### ./package.json
+```diff
+{
+  ...
+  "scripts": {
+    ...
+-   "test": "jest --verbose",
++   "test": "jest -c ./config/test/jest.json --verbose",
+-   "test:watch": "jest --verbose --watchAll -i"
++   "test:watch": "jest -c ./config/test/jest.json --verbose --watchAll -i"
+  },
+  ...
+}
+
+```
+
+- Running specs again:
+
+```bash
+npm run test:watch
 
 ```
 

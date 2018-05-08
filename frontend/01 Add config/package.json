@@ -10,8 +10,8 @@
     "build": "env-cmd .env if-env NODE_ENV=production && npm run build:prod || npm run build:dev",
     "build:dev": "rimraf dist && env-cmd .env cross-env NODE_ENV=development webpack --config ./config/webpack/app/dev.js",
     "build:prod": "rimraf dist && env-cmd .env cross-env NODE_ENV=production webpack -p --config ./config/webpack/app/prod.js",
-    "test": "jest --verbose",
-    "test:watch": "jest --verbose --watchAll -i"
+    "test": "jest -c ./config/test/jest.json --verbose",
+    "test:watch": "jest -c ./config/test/jest.json --verbose --watchAll -i"
   },
   "author": "Lemoncode",
   "license": "MIT",
@@ -71,21 +71,5 @@
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.2",
     "webpack-merge": "^4.1.2"
-  },
-  "jest": {
-    "testRegex": "\\.spec\\.tsx?$",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/test/polyfills.js"
-    ],
-    "transform": {
-      ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    }
   }
 }
