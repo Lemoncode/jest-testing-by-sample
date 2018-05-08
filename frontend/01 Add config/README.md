@@ -193,6 +193,34 @@ require('raf/polyfill');
 
 ```
 
+- Finally we are going to automatically restore mock state between every test:
+
+### ./package.json
+```diff
+{
+  ...
+  "jest": {
+    "testRegex": "\\.spec\\.tsx?$",
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/test/polyfills.js"
+    ],
+    "transform": {
+      ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+-   }
++   },
++   "restoreMocks": true
+  }
+}
+
+```
+
 ## Adding sample spec
 
 Let's launch tests in watch mode:
@@ -272,7 +300,8 @@ One step over, we could be moved jest config outside `package.json` to improve m
 -   ],
 -   "transform": {
 -      ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
--   }
+-   },
+-   "restoreMocks": true
 - }
 }
 
@@ -294,7 +323,8 @@ One step over, we could be moved jest config outside `package.json` to improve m
   ],
   "transform": {
     ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-  }
+  },
+  "restoreMocks": true
 }
 
 ```
@@ -320,7 +350,8 @@ One step over, we could be moved jest config outside `package.json` to improve m
   ],
   "transform": {
     ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-  }
+  },
+  "restoreMocks": true
 }
 
 ```
