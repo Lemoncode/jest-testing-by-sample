@@ -7,8 +7,8 @@ We will start from sample _01 Add config_.
 Summary steps:
  - Remove sample spec.
  - Add login mappers specs.
- - Add login validations specs.
  - Add member list mappers specs.
+ - Add login validations specs.
 
 # Steps to build it
 
@@ -357,6 +357,264 @@ const mapMemberModelToVM = (member: model.Member): vm.Member => ({
 +     expect(result).toEqual(expectedResult);
 +   });
   });
+});
+
+```
+
+- We could add specs to `login validations` to ensure that it's working as we expect:
+
+> NOTE: `lc-form-validation` is an external lib that it provides their own specs.
+> This specs maybe are unnecessary but if we implement custom validators we need specs for sure.
+
+### ./src/pages/login/validations.spec.ts
+```javascript
+import { validations } from './validations';
+
+describe('pages/login/validations specs', () => {
+  it('should return undefined validation result when passing wrong field', () => {
+    // Arrange
+    const vm = {
+      wrongField: '',
+    };
+
+    const field = 'wrongField';
+    const value = '';
+
+    // Act
+    validations.validateField(vm, field, value)
+      .then((fieldValidationResult) => {
+        // Assert
+        expect(fieldValidationResult).toBeUndefined();
+      });
+  });
+});
+
+```
+
+- If we update that spec to be fail:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+import { validations } from './validations';
+
+describe('pages/login/validations specs', () => {
+  it('should return undefined validation result when passing wrong field', () => {
+    // Arrange
+    const vm = {
+      login: '',
+    };
+
+    const field = 'login';
+    const value = 'test';
+
+    // Act
+    validations.validateField(vm, field, value)
+      .then((fieldValidationResult) => {
+        // Assert
+-       expect(fieldValidationResult).toBeUndefined();
++       expect(fieldValidationResult).toBeNull();
+      });
+  });
+});
+
+```
+
+- We see something is wrong but all specs is passing, how is that? It's because we are testing asynchronous specs, the problem is that the test will complete as soon as promise completes, so Jest is not waiting to expect result.
+
+> [Asynchronous Jest](https://facebook.github.io/jest/docs/en/asynchronous.html)
+
+- A simple way to solve it, it uses the `done` method:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+import { validations } from './validations';
+
+describe('pages/login/validations specs', () => {
+- it('should return undefined validation result when passing wrong field', () => {
++ it('should return undefined validation result when passing wrong field', (done) => {
+    // Arrange
+    const vm = {
+      wrongField: '',
+    };
+
+    const field = 'wrongField';
+    const value = '';
+
+    // Act
+    validations.validateField(vm, field, value)
+      .then((fieldValidationResult) => {
+        // Assert
+        expect(fieldValidationResult).toBeNull();
++       done();
+      });
+  });
+});
+
+```
+
+- Now it fails as expected. To be ensure that `done` method is called when promise is `success` or `failed`:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+import { validations } from './validations';
+
+describe('pages/login/validations specs', () => {
+  it('should return undefined validation result when passing wrong field', (done) => {
+    // Arrange
+    const vm = {
+      wrongField: '',
+    };
+
+    const field = 'wrongField';
+    const value = '';
+
+    // Act
+    validations.validateField(vm, field, value)
+      .then((fieldValidationResult) => {
+        // Assert
+        expect(fieldValidationResult).toBeNull();
+-       done();
+-     });
++     })
++     .then(done, done);
+  });
+});
+
+```
+
+- Now, we could restore the spec:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+import { validations } from './validations';
+
+describe('pages/login/validations specs', () => {
+  it('should return undefined validation result when passing wrong field', (done) => {
+    // Arrange
+    const vm = {
+      wrongField: '',
+    };
+
+    const field = 'wrongField';
+    const value = '';
+
+    // Act
+    validations.validateField(vm, field, value)
+      .then((fieldValidationResult) => {
+        // Assert
+-       expect(fieldValidationResult).toBeNull();
++       expect(fieldValidationResult).toBeUndefined();
+      })
+      .then(done, done);
+  });
+});
+
+```
+
+- Add `failed validation result` for login:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+...
++ it('should retun failed validation result when passing login field with empty value', (done) => {
++   // Arrange
++   const vm = {
++     login: '',
++   };
+
++   const field = 'login';
++   const value = '';
+
++   // Act
++   validations.validateField(vm, field, value)
++     .then((fieldValidationResult) => {
++       // Assert
++       expect(fieldValidationResult.succeeded).toBeFalsy();
++       expect(fieldValidationResult.errorMessage).toEqual('Please fill in this mandatory field.');
++     })
++     .then(done, done);
++ });
+});
+
+```
+
+- Add `succeeded validation result` for login:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+...
++ it('should retun succeeded validation result when passing login field with value', (done) => {
++   // Arrange
++   const vm = {
++     login: '',
++   };
+
++   const field = 'login';
++   const value = 'test value';
+
++   // Act
++   validations.validateField(vm, field, value)
++     .then((fieldValidationResult) => {
++       // Assert
++       expect(fieldValidationResult.succeeded).toBeTruthy();
++       expect(fieldValidationResult.errorMessage).toEqual('');
++     })
++     .then(done, done);
++ });
+});
+
+```
+
+- Add `failed validation result` for password:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+...
++ it('should retun failed validation result when passing password field with empty value', (done) => {
++   // Arrange
++   const vm = {
++     password: '',
++   };
+
++   const field = 'password';
++   const value = '';
+
++   // Act
++   validations.validateField(vm, field, value)
++     .then((fieldValidationResult) => {
++       // Assert
++       expect(fieldValidationResult.succeeded).toBeFalsy();
++       expect(fieldValidationResult.errorMessage).toEqual('Please fill in this mandatory field.');
++     })
++     .then(done, done);
++ });
+});
+
+```
+
+- Add `succeeded validation result` for password:
+
+### ./src/pages/login/validations.spec.ts
+```diff
+...
++ it('should retun succeeded validation result when passing password field with value', (done) => {
++   // Arrange
++   const vm = {
++     password: '',
++   };
+
++   const field = 'password';
++   const value = 'test value';
+
++   // Act
++   validations.validateField(vm, field, value)
++     .then((fieldValidationResult) => {
++       // Assert
++       expect(fieldValidationResult.succeeded).toBeTruthy();
++       expect(fieldValidationResult.errorMessage).toEqual('');
++     })
++     .then(done, done);
++ });
 });
 
 ```
