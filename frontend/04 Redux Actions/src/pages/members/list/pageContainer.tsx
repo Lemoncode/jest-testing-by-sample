@@ -22,6 +22,7 @@ export class MemberListPageContainer extends React.PureComponent<{}, State> {
       })
       .catch(alert);
   }
+
   render() {
     return (
       <MemberListPage
