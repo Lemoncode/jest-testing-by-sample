@@ -452,36 +452,6 @@ describe('pages/login/validations specs', () => {
 
 ```
 
-- Now it fails as expected. To be ensure that `done` method is called when promise is `success` or `failed`:
-
-### ./src/pages/login/validations.spec.ts
-```diff
-import { validations } from './validations';
-
-describe('pages/login/validations specs', () => {
-  it('should return undefined validation result when passing wrong field', (done) => {
-    // Arrange
-    const vm = {
-      wrongField: '',
-    };
-
-    const field = 'wrongField';
-    const value = '';
-
-    // Act
-    validations.validateField(vm, field, value)
-      .then((fieldValidationResult) => {
-        // Assert
-        expect(fieldValidationResult).toBeNull();
--       done();
--     });
-+     })
-+     .then(done, done);
-  });
-});
-
-```
-
 - Now, we could restore the spec:
 
 ### ./src/pages/login/validations.spec.ts
@@ -504,8 +474,8 @@ describe('pages/login/validations specs', () => {
         // Assert
 -       expect(fieldValidationResult).toBeNull();
 +       expect(fieldValidationResult).toBeUndefined();
-      })
-      .then(done, done);
+        done();
+      });
   });
 });
 
@@ -531,8 +501,8 @@ describe('pages/login/validations specs', () => {
 +       // Assert
 +       expect(fieldValidationResult.succeeded).toBeFalsy();
 +       expect(fieldValidationResult.errorMessage).toEqual('Please fill in this mandatory field.');
-+     })
-+     .then(done, done);
++       done();
++     });
 + });
 });
 
@@ -558,8 +528,8 @@ describe('pages/login/validations specs', () => {
 +       // Assert
 +       expect(fieldValidationResult.succeeded).toBeTruthy();
 +       expect(fieldValidationResult.errorMessage).toEqual('');
-+     })
-+     .then(done, done);
++       done();
++     });
 + });
 });
 
@@ -585,8 +555,8 @@ describe('pages/login/validations specs', () => {
 +       // Assert
 +       expect(fieldValidationResult.succeeded).toBeFalsy();
 +       expect(fieldValidationResult.errorMessage).toEqual('Please fill in this mandatory field.');
-+     })
-+     .then(done, done);
++       done();
++     });
 + });
 });
 
@@ -612,8 +582,8 @@ describe('pages/login/validations specs', () => {
 +       // Assert
 +       expect(fieldValidationResult.succeeded).toBeTruthy();
 +       expect(fieldValidationResult.errorMessage).toEqual('');
-+     })
-+     .then(done, done);
++       done();
++     });
 + });
 });
 

@@ -194,7 +194,7 @@ import { updateLoginEntityFieldCompleted, updateLoginEntityField } from './updat
 ...
   describe('updateLoginEntityField', () => {
 -   it('', () => {
-+   it('should call to validateField when passing loginEntity, fieldName and value', () => {
++   it('should call to validateField with loginEntity, fieldName and value', () => {
       // Arrange
 +     const loginEntity: LoginEntity = {
 +       login: 'test login',
@@ -241,20 +241,62 @@ export const updateLoginEntityField = (loginEntity: LoginEntity, fieldName: stri
 ```diff
 ...
   describe('updateLoginEntityField', () => {
--   it('should call to validateField when passing loginEntity, fieldName and value', () => {
-+   it('should call to validateField when passing loginEntity, fieldName and value', (done) => {
+-   it('should call to validateField with loginEntity, fieldName and value', () => {
++   it('should call to validateField with loginEntity, fieldName and value', (done) => {
  ...
       // Act
       const store = getMockStore();
       store.dispatch<any>(updateLoginEntityField(loginEntity, fieldName, value))
 +     .then(() => {
         // Assert
-++       expect(validateFieldStub).toHaveBeenCalledWith(loginEntity, fieldName, value);
-+     })
-+     .then(done, done);
++       expect(validateFieldStub).toHaveBeenCalledWith(loginEntity, fieldName, value);
++       done();
++     });
     });
   });
 });
+
+```
+
+- Should dispatch completed action:
+
+### ./src/pages/login/actions/updateLoginEntityField.spec.ts
+```diff
+...
++   it(`should dispatch action with type UPDATE_LOGIN_ENTITY_FIELD and
++   payload with fieldName, value and fieldValidationResult`, (done) => {
++       // Arrange
++       const loginEntity: LoginEntity = {
++         login: 'test login',
++         password: 'test password',
++       };
++       const fieldName = 'login';
++       const value = 'updated login';
+
++       const fieldValidationResult = new FieldValidationResult();
++       fieldValidationResult.succeeded = true;
+
++       const validateFieldStub = jest.spyOn(validations, 'validateField')
++         .mockImplementation(() => ({
++           then: function(callback) {
++             callback(fieldValidationResult);
++             return this;
++           },
++         }));
+
++       // Act
++       const store = getMockStore();
++       store.dispatch<any>(updateLoginEntityField(loginEntity, fieldName, value))
++         .then(() => {
++           // Assert
++           const expectedAction = store.getActions()[0];
++           expect(expectedAction.type).toEqual(actionIds.UPDATE_LOGIN_ENTITY_FIELD);
++           expect(expectedAction.payload.fieldName).toEqual(fieldName);
++           expect(expectedAction.payload.value).toEqual(value);
++           expect(expectedAction.payload.fieldValidationResult.succeeded).toBeTruthy();
++           done();
++         });
++     });
 
 ```
 

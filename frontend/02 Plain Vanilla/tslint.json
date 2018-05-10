@@ -76,6 +76,7 @@
       "array-type": false,
       "no-duplicate-imports": false,
       "no-object-literal-type-assertion": false,
-      "jsx-curly-spacing": false
+      "jsx-curly-spacing": false,
+      "object-literal-shorthand": false
   }
 }
