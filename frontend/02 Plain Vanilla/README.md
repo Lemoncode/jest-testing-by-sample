@@ -16,14 +16,12 @@ Summary steps:
 
 ```bash
 npm install
-
 ```
 
 - Exec tests in watch mode:
 
 ```bash
 npm run test:watch
-
 ```
 
 - Remove sample spec created on previous sample:
@@ -49,7 +47,6 @@ npm run test:watch
 -     expect(false).toBeTruthy();
 -   });
 - });
-
 ```
 
 - Add `login mappers` specs:
@@ -63,7 +60,6 @@ describe('pages/login/mappers specs', () => {
 
   });
 });
-
 ```
 
 - Add spec passing `undefined` value:
@@ -87,10 +83,9 @@ describe('pages/login/mappers specs', () => {
 +   });
   });
 });
-
 ```
 
-- Previous spec fail because we are not protecting against undefined value, so we have to refactor the implementation:
+- Previous spec will fail because we are not protecting against undefined value, so we have to refactor the implementation:
 
 ### ./src/pages/login/mappers.ts
 ```diff
@@ -106,7 +101,6 @@ import * as vm from './viewModel';
 +     null
 - });
 + );
-
 ```
 
 - Add spec passing `null` value:
@@ -127,7 +121,6 @@ import * as vm from './viewModel';
 +   });
   });
 });
-
 ```
 
 - Add spec passing `empty` values:
@@ -154,7 +147,6 @@ import * as vm from './viewModel';
 +   });
   });
 });
-
 ```
 
 - Add spec passing `values`:
@@ -181,10 +173,9 @@ import * as vm from './viewModel';
 +   });
   });
 });
-
 ```
 
-- It looks like that we finish with this mapper. Looking throught the app, we found `members mappers`:
+- It looks like we've finished this mapper. Looking through the app, we found `members mappers` so let's add a test file for them:
 
 ### ./src/pages/members/list/mappers.spec.ts
 ```javascript
@@ -195,7 +186,6 @@ describe('pages/members/list/mappers specs', () => {
 
   });
 });
-
 ```
 
 - Add spec passing `undefined` value:
@@ -219,10 +209,9 @@ describe('pages/members/list/mappers specs', () => {
 +   });
   });
 });
-
 ```
 
-- Previous spec fail because we are not protecting against undefined value, so we have to refactor the implementation:
+- Previous spec will fail because we are not protecting against undefined value, so we have to refactor the implementation:
 
 ### ./src/pages/members/list/mappers.ts
 ```diff
@@ -240,7 +229,6 @@ const mapMemberModelToVM = (member: model.Member): vm.Member => ({
   name: member.login,
   avatarUrl: member.avatar_url,
 });
-
 ```
 
 - Add spec passing `null` value:
@@ -260,7 +248,6 @@ const mapMemberModelToVM = (member: model.Member): vm.Member => ({
 +   });
   });
 });
-
 ```
 
 - Add spec passing `empty array` value:
@@ -280,7 +267,6 @@ const mapMemberModelToVM = (member: model.Member): vm.Member => ({
 +   });
   });
 });
-
 ```
 
 - Add spec passing `one item`:
@@ -314,7 +300,6 @@ const mapMemberModelToVM = (member: model.Member): vm.Member => ({
 +   });
   });
 });
-
 ```
 
 - Add spec passing `two items`:
@@ -358,7 +343,6 @@ const mapMemberModelToVM = (member: model.Member): vm.Member => ({
 +   });
   });
 });
-
 ```
 
 - We could add specs to `login validations` to ensure that it's working as we expect:
@@ -388,10 +372,9 @@ describe('pages/login/validations specs', () => {
       });
   });
 });
-
 ```
 
-- If we update that spec to be fail:
+- If we update the test so that it fails:
 
 ### ./src/pages/login/validations.spec.ts
 ```diff
@@ -416,14 +399,13 @@ describe('pages/login/validations specs', () => {
       });
   });
 });
-
 ```
 
 - We see something is wrong but all specs is passing, how is that? It's because we are testing asynchronous specs, the problem is that the test will complete as soon as promise completes, so Jest is not waiting to expect result.
 
 > [Asynchronous Jest](https://facebook.github.io/jest/docs/en/asynchronous.html)
 
-- A simple way to solve it, it uses the `done` method:
+- A simple way to solve it, is by using the `done` method:
 
 ### ./src/pages/login/validations.spec.ts
 ```diff
@@ -449,7 +431,6 @@ describe('pages/login/validations specs', () => {
       });
   });
 });
-
 ```
 
 - Now, we could restore the spec:
@@ -478,7 +459,6 @@ describe('pages/login/validations specs', () => {
       });
   });
 });
-
 ```
 
 - Add `failed validation result` for login:
@@ -505,7 +485,6 @@ describe('pages/login/validations specs', () => {
 +     });
 + });
 });
-
 ```
 
 - Add `succeeded validation result` for login:
@@ -532,7 +511,6 @@ describe('pages/login/validations specs', () => {
 +     });
 + });
 });
-
 ```
 
 - Add `failed validation result` for password:
@@ -559,7 +537,6 @@ describe('pages/login/validations specs', () => {
 +     });
 + });
 });
-
 ```
 
 - Add `succeeded validation result` for password:
@@ -586,7 +563,6 @@ describe('pages/login/validations specs', () => {
 +     });
 + });
 });
-
 ```
 
 # About Lemoncode

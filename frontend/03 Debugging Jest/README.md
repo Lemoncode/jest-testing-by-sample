@@ -14,7 +14,6 @@ Summary steps:
 
 ```bash
 npm install
-
 ```
 
 ## Debugging Jest
@@ -69,7 +68,6 @@ As we know, VS Code provides by default a [node debugger](https://code.visualstu
     }
   ]
 }
-
 ```
 
 - Now we could run specs in debugging mode.
