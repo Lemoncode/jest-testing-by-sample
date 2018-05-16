@@ -20,7 +20,6 @@ Summary steps:
 
 ```bash
 npm install
-
 ```
 
 Let's start by installing the testing libraries:
@@ -36,12 +35,11 @@ Jest [documentation page](https://facebook.github.io/jest/en/).
 
 ```bash
 npm install jest @types/jest ts-jest raf -D
-
 ```
 
-### Render React component libs:
+### Libs for rendering React components:
 
-We have two options for render components: `react-test-renderer` or `enzyme`.
+We have two options to render components: `react-test-renderer` or `enzyme`.
 
 - [react-test-renderer](https://www.npmjs.com/package/react-test-renderer): provides an experimental React renderer that can be used to render React components to pure JavaScript objects, without depending on the DOM or a native mobile environment.
   - Pros: no necessary other library to snapshot testing
@@ -53,12 +51,11 @@ We have two options for render components: `react-test-renderer` or `enzyme`.
   - Cons: it needs to install other libraries to snapshot testing.
 
 - [@types/enzyme](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/enzyme): Typings for enzyme.
-- [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json): Convert enzyme wrappers to snapshot testing.
+- [enzyme-to-json](https://github.com/adriantoine/enzyme-to-json): Serialize enzyme wrappers for snapshot testing.
 - [enzyme-adapter-react-16](https://github.com/airbnb/enzyme/tree/master/packages/enzyme-adapter-react-16): Enzyme adapter for React 16.
 
 ```bash
 npm install enzyme @types/enzyme enzyme-to-json enzyme-adapter-react-16 -D
-
 ```
 
 ### Other useful libraries
@@ -71,13 +68,11 @@ npm install enzyme @types/enzyme enzyme-to-json enzyme-adapter-react-16 -D
 
 ```bash
 npm install deep-freeze @types/deep-freeze @types/redux-mock-store identity-obj-proxy -D
-
 ```
 
 - Save exact version due to [breaking changes in 1.5 version](https://github.com/arnaudbenard/redux-mock-store/issues/135)
 ```bash
 npm install redux-mock-store@1.4 -D -E
-
 ```
 
 ## Configuration
@@ -131,7 +126,6 @@ NOTE:
 +     "tsx"
 +   ]
 }
-
 ```
 
 - Set up polyfills _config/test/polyfills.js and add `raf`:
@@ -141,7 +135,6 @@ NOTE:
 ```js
 // Polyfill requestAnimationFrame required by React >=16.0.0
 require('raf/polyfill');
-
 ```
 
 ### ./package.json
@@ -163,7 +156,6 @@ require('raf/polyfill');
 +     "<rootDir>/config/test/polyfills.js"
 +   ]
 }
-
 ```
 
 - TypeScript configuration:
@@ -190,7 +182,6 @@ require('raf/polyfill');
 +   }
   }
 }
-
 ```
 
 - Finally we are going to automatically restore mock state between every test:
@@ -218,7 +209,6 @@ require('raf/polyfill');
 +   "restoreMocks": true
   }
 }
-
 ```
 
 ## Adding sample spec
@@ -227,7 +217,6 @@ Let's launch tests in watch mode:
 
 ```bash
 npm run test:watch
-
 ```
 
 - Adding success spec:
@@ -245,7 +234,6 @@ describe('Sample tests', () => {
     expect(true).toBeTruthy();
   });
 });
-
 ```
 
 - Adding failed spec:
@@ -272,7 +260,6 @@ describe('Sample tests', () => {
 +   expect(false).toBeTruthy();
 + });
 });
-
 ```
 
 ## External jest config file
@@ -304,7 +291,6 @@ One step over, we could be moved jest config outside `package.json` to improve m
 -   "restoreMocks": true
 - }
 }
-
 ```
 
 ### ./config/test/jest.json
@@ -326,7 +312,6 @@ One step over, we could be moved jest config outside `package.json` to improve m
   },
   "restoreMocks": true
 }
-
 ```
 
 - We only need a little detail to keep working with that Jest config
@@ -353,7 +338,6 @@ One step over, we could be moved jest config outside `package.json` to improve m
   },
   "restoreMocks": true
 }
-
 ```
 
 - And use that file:
@@ -371,14 +355,12 @@ One step over, we could be moved jest config outside `package.json` to improve m
   },
   ...
 }
-
 ```
 
 - Running specs again:
 
 ```bash
 npm run test:watch
-
 ```
 
 # About Lemoncode
