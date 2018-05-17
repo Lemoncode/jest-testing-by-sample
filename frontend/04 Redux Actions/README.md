@@ -673,6 +673,189 @@ import { routes } from '../../../common/constants/routes';
 +   });
 ```
 
+- Finally, we are going to implement member list actions:
+
+### ./src/pages/members/list/actions/actionIds.ts
+```javascript
+export const actionIds = {
+  UPDATE_MEMBERS: 'UPDATE_MEMBERS',
+};
+```
+
+- Implement the `completed` action:
+
+### ./src/pages/members/list/actions/fetchMembers.ts
+```javascript
+import { actionIds } from './actionIds';
+import { Member } from '../../../../rest-api/model';
+
+const fetchMembersCompleted = (members: Member[]) => ({
+  type: actionIds.UPDATE_MEMBERS,
+  payload: members,
+});
+```
+
+- Implement the `started` action:
+
+### ./src/pages/members/list/actions/fetchMembers.ts
+```diff
+import { actionIds } from './actionIds';
+import { Member } from '../../../../rest-api/model';
++ import * as apiMember from '../../../../rest-api/api/member';
+
++ export const fetchMembers = () => (dispatch) => (
++   apiMember.fetchMembers()
++     .then((members) => dispatch(fetchMembersCompleted(members)))
++     .catch(console.log)
++ );
+
+const fetchMembersCompleted = (members: Member[]) => ({
+  type: actionIds.UPDATE_MEMBERS,
+  payload: members,
+});
+```
+
+- Prepare the spec:
+
+### ./src/pages/members/list/actions/fetchMembers.spec.ts
+```javascript
+import configureStore from 'redux-mock-store';
+import reduxThunk from 'redux-thunk';
+import { fetchMembers } from './fetchMembers';
+
+const middlewares = [reduxThunk];
+const getMockStore = configureStore(middlewares);
+
+describe('members/list/actions/fetchMembers tests', () => {
+  it('should call to apiMember.fetchMembers', () => {
+    // Arrange
+
+    // Act
+
+    // Assert
+  });
+});
+```
+
+- Should call to apiMember.fetchMembers:
+
+### ./src/pages/members/list/actions/fetchMembers.spec.ts
+```diff
+import configureStore from 'redux-mock-store';
+import reduxThunk from 'redux-thunk';
++ import * as apiMember from '../../../../rest-api/api/member';
+import { fetchMembers } from './fetchMembers';
+
+const middlewares = [reduxThunk];
+const getMockStore = configureStore(middlewares);
+
+describe('members/list/actions/fetchMembers tests', () => {
+- it('should call to apiMember.fetchMembers', () => {
++ it('should call to apiMember.fetchMembers', (done) => {
+    // Arrange
++   const fetchMembersStub = jest.spyOn(apiMember, 'fetchMembers');
+
+    // Act
++   const store = getMockStore();
++   store.dispatch<any>(fetchMembers())
++     .then(() => {
+        // Assert
++       expect(fetchMembersStub).toHaveBeenCalled();
++       done();
++     });
+  });
+});
+```
+
+- Why was this test fail? Because jest is running over `Node` process and it doesn't have any fetch implementation. That means `spyOn` is not mocking the implementation, it's only adding a wrapper to know `calls method`:
+
+> NOTE: instead of create an object with `then` and `catch` we could use `mockResolvedValue` and `mockRejectedValue`.
+
+### ./src/pages/members/list/actions/fetchMembers.spec.ts
+```diff
+...
+  it('should call to apiMember.fetchMembers', (done) => {
+    // Arrange
+-   const fetchMembersStub = jest.spyOn(apiMember, 'fetchMembers');
++   const fetchMembersStub = jest.spyOn(apiMember, 'fetchMembers')
++     .mockResolvedValue([]);
+
+    // Act
+    const store = getMockStore();
+    store.dispatch<any>(fetchMembers())
+      .then(() => {
+        // Assert
+        expect(fetchMembersStub).toHaveBeenCalled();
+        done();
+      });
+  });
+});
+```
+
+- Should dispatch `update members` action:
+
+### ./src/pages/members/list/actions/fetchMembers.spec.ts
+```diff
+import configureStore from 'redux-mock-store';
+import reduxThunk from 'redux-thunk';
+import * as apiMember from '../../../../rest-api/api/member';
++ import { Member } from '../../../../rest-api/model';
++ import { actionIds } from './actionIds';
+import { fetchMembers } from './fetchMembers';
+...
+
++ it(`should dispatch action with type UPDATE_MEMBERS and payload with members
++ when it fetch members successfully`, (done) => {
++     // Arrange
++     const members: Member[] = [
++       {
++         id: 1,
++         login: 'test login',
++         avatar_url: 'test url',
++       },
++     ];
+
++     const fetchMembersStub = jest.spyOn(apiMember, 'fetchMembers')
++       .mockResolvedValue(members);
+
++     // Act
++     const store = getMockStore();
++     store.dispatch<any>(fetchMembers())
++       .then(() => {
++         // Assert
++         const expectedAction = store.getActions()[0];
++         expect(expectedAction.type).toEqual(actionIds.UPDATE_MEMBERS);
++         expect(expectedAction.payload).toEqual(members);
++         done();
++       });
++   });
+```
+
+- Should call `console.log` on fail request:
+
+### ./src/pages/members/list/actions/fetchMembers.spec.ts
+```diff
+...
+
++ it('should call console.log when fail request', (done) => {
++   // Arrange
++   const error = 'test error';
++   const fetchMembersStub = jest.spyOn(apiMember, 'fetchMembers')
++     .mockRejectedValue(error);
+
++   const logStub = jest.spyOn(window.console, 'log');
+
++   // Act
++   const store = getMockStore();
++   store.dispatch<any>(fetchMembers())
++     .then(() => {
++       // Assert
++       expect(logStub).toHaveBeenCalledWith(error);
++       done();
++     });
++ });
+```
+
 # About Lemoncode
 
 We are a team of long-term experienced freelance developers, established as a group in 2010.
