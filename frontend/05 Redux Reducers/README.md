@@ -467,6 +467,252 @@ import { membersReducer, MembersState } from './members';
 +   });
 ```
 
+- Now we could combine `login` reducer:
+
+### ./src/pages/login/reducers/index.ts
+```javascript
+export * from './login';
+```
+
+### ./src/pages/login/index.ts
+```diff
+export * from './pageContainer';
++ export * from './reducers';
+```
+
+### ./src/pages/reducers.ts
+```diff
+import { combineReducers } from 'redux';
++ import { loginReducer, LoginState } from './login';
+
+export interface State {
++ login: LoginState;
+}
+
+export const reducers = combineReducers<State>({
++ login: loginReducer,
+});
+```
+
+- And combine `members` reducer:
+
+### ./src/pages/members/list/reducers/index.ts
+```javascript
+export * from './members';
+```
+
+### ./src/pages/members/list/index.ts
+```diff
+export * from './pageContainer';
++ export * from './reducers';
+```
+
+### ./src/pages/reducers.ts
+```diff
+import { combineReducers } from 'redux';
+import { loginReducer, LoginState } from './login';
++ import { membersReducer, MembersState } from './members/list';
+
+export interface State {
+  login: LoginState;
++ members: MembersState;
+}
+
+export const reducers = combineReducers<State>({
+  login: loginReducer,
++ members: membersReducer,
+});
+```
+
+- Finally, we have to update `login pageContainer`, we could start migrating `mapStateToProps`:
+
+### ./src/pages/login/pageContainer.tsx
+```diff
++ import { connect } from 'react-redux';
++ import { State } from '../reducers';
+- import * as React from 'react';
+- import { history } from '../../history';
+- import {
+-   LoginEntity, createEmptyLoginEntity,
+-   LoginFormErrors, createEmptyLoginFormErrors,
+- } from './viewModel';
+- import { validations } from './validations';
+- import { LoginPage } from './page';
+- import { routes } from '../../common/constants/routes';
+- import { login } from '../../rest-api/api/login';
+- import { mapLoginEntityVMToModel } from './mappers';
+- import { FieldValidationResult } from 'lc-form-validation';
+
+- interface State {
+-   loginEntity: LoginEntity;
+-   loginFormErrors: LoginFormErrors;
+- }
+
++ const mapStateToProps = (state: State) => ({
++   loginEntity: state.login.loginEntity,
++   loginFormErrors: state.login.loginFormErrors,
++ });
+...
+```
+
+- Now the `mapDispatchToProps`:
+
+### ./src/pages/login/pageContainer.tsx
+```diff
+import { connect } from 'react-redux';
+import { State } from '../reducers';
++ import { updateLoginEntityField } from './actions/updateLoginEntityField';
++ import { loginRequest } from './actions/loginRequest';
++ import { LoginEntity } from './viewModel';
+
+const mapStateToProps = (state: State) => ({
+  loginEntity: state.login.loginEntity,
+  loginFormErrors: state.login.loginFormErrors,
+});
+
++ const mapDispatchToProps = (dispatch) => ({
++   updateField: (loginEntity: LoginEntity, fieldName: string, value: any) => dispatch(
++     updateLoginEntityField(loginEntity, fieldName, value),
++   ),
++   doLogin: (loginEntity: LoginEntity) => dispatch(loginRequest(loginEntity)),
++ });
+
+export class LoginPageContainer extends React.PureComponent<{}, State> {
+- state = {
+-   loginEntity: createEmptyLoginEntity(),
+-   loginFormErrors: createEmptyLoginFormErrors(),
+- };
+
+- updateField = (fieldName: string, value: any) => {
+-   validations.validateField(this.state.loginEntity, fieldName, value)
+-     .then((fieldValidationResult) => {
+-       this.setState({
+-         loginEntity: {
+-           ...this.state.loginEntity,
+-           [fieldName]: value,
+-         },
+-         loginFormErrors: {
+-           ...this.state.loginFormErrors,
+-           [fieldName]: fieldValidationResult,
+-         },
+-       });
+-     });
+- }
+
+- doLogin = () => {
+-   validations.validateForm(this.state.loginEntity)
+-     .then((formValidationResult) => {
+-       formValidationResult.succeeded ?
+-         this.loginRequest() :
+-         this.displayErrors(formValidationResult.fieldErrors);
+-     });
+- }
+
+- loginRequest = () => {
+-   const loginEntity = mapLoginEntityVMToModel(this.state.loginEntity);
+-   login(loginEntity)
+-     .then(() => {
+-       history.push(routes.members);
+-     })
+-     .catch(alert);
+- }
+
+- displayErrors = (fieldErrors: FieldValidationResult[]) => {
+-   const loginFormErrors = fieldErrors.reduce((errors, fieldValidationResult) => ({
+-     ...errors,
+-     [fieldValidationResult.key]: fieldValidationResult,
+-   }), createEmptyLoginFormErrors());
+
+-   this.setState({
+-     loginFormErrors,
+-   });
+- }
+...
+```
+
+- Update the `component`:
+
+### ./src/pages/login/pageContainer.tsx
+```diff
+import { connect } from 'react-redux';
+import { State } from '../reducers';
+import { updateLoginEntityField } from './actions/updateLoginEntityField';
+import { loginRequest } from './actions/loginRequest';
+import { LoginEntity } from './viewModel';
++ import { LoginPage } from './page';
+
+const mapStateToProps = (state: State) => ({
+  loginEntity: state.login.loginEntity,
+  loginFormErrors: state.login.loginFormErrors,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateField: (loginEntity: LoginEntity, fieldName: string, value: any) => dispatch(
+    updateLoginEntityField(loginEntity, fieldName, value),
+  ),
+  doLogin: (loginEntity: LoginEntity) => dispatch(loginRequest(loginEntity)),
+});
+
+- export class LoginPageContainer extends React.PureComponent<{}, State> {
+-   render() {
+-     return (
+-       <LoginPage
+-         loginEntity={this.state.loginEntity}
+-         loginFormErrors={this.state.loginFormErrors}
+-         updateField={this.updateField}
+-         doLogin={this.doLogin}
+-       />
+-     );
+-   }
+- }
++ export const LoginPageContainer = connect(
++   mapStateToProps,
++   mapDispatchToProps,
++ )(LoginPage);
+```
+
+- We could avoid to change our presentational components:
+
+> Resource: [`mergeProps`](https://github.com/reduxjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
+
+### ./src/pages/login/pageContainer.tsx
+```diff
+import { connect } from 'react-redux';
+import { State } from '../reducers';
+import { updateLoginEntityField } from './actions/updateLoginEntityField';
+import { loginRequest } from './actions/loginRequest';
+import { LoginEntity } from './viewModel';
+import { LoginPage } from './page';
+
+const mapStateToProps = (state: State) => ({
+  loginEntity: state.login.loginEntity,
+  loginFormErrors: state.login.loginFormErrors,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+- updateField: (loginEntity: LoginEntity, fieldName: string, value: any) => dispatch(
++ updateField: (loginEntity: LoginEntity) => (fieldName: string, value: any) => dispatch(
+    updateLoginEntityField(loginEntity, fieldName, value),
+  ),
+- doLogin: (loginEntity: LoginEntity) => dispatch(loginRequest(loginEntity)),
++ doLogin: (loginEntity: LoginEntity) => () => dispatch(loginRequest(loginEntity)),
+});
+
++ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
++   ...ownProps,
++   ...stateProps,
++   updateField: dispatchProps.updateField(stateProps.loginEntity),
++   doLogin: dispatchProps.doLogin(stateProps.loginEntity),
++ });
+
+export const LoginPageContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
++ mergeProps,
+)(LoginPage);
+
+```
+
 # About Lemoncode
 
 We are a team of long-term experienced freelance developers, established as a group in 2010.
