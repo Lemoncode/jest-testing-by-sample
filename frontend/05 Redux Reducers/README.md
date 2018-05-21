@@ -338,7 +338,7 @@ import { loginReducer, LoginState } from './login';
 ### ./src/pages/members/list/reducers/members.ts
 ```javascript
 import { actionIds } from '../actions/actionIds';
-import { Member } from '../viewModel';
+import { Member } from '../../../../rest-api/model';
 
 export type MembersState = Member[];
 
@@ -352,7 +352,7 @@ export const membersReducer = (state = [], action): MembersState => {
 ### ./src/pages/members/list/reducers/members.ts
 ```diff
 import { actionIds } from '../actions/actionIds';
-import { Member } from '../viewModel';
+import { Member } from '../../../../rest-api/model';
 
 export type MembersState = Member[];
 
@@ -418,7 +418,7 @@ import { membersReducer, MembersState } from './members';
 + it('should return same state without mutate it when passing state and some action type', () => {
 +   // Arrange
 +   const state: MembersState = [
-+     { id: 1, name: 'test name', avatarUrl: 'test avatarUrl' },
++     { id: 1, login: 'test login', avatar_url: 'test avatar_url' },
 +   ];
 +   const action = { type: 'some type' };
 +   deepFreeze(state);
@@ -428,7 +428,7 @@ import { membersReducer, MembersState } from './members';
 
 +   // Assert
 +   expect(nextState).toEqual([
-+     { id: 1, name: 'test name', avatarUrl: 'test avatarUrl' },
++     { id: 1, login: 'test login', avatar_url: 'test avatar_url' },
 +   ]);
 + });
 ```
@@ -445,12 +445,12 @@ import { membersReducer, MembersState } from './members';
 + when passing state, actionIds.UPDATE_MEMBERS action type and members payload`, () => {
 +     // Arrange
 +     const state: MembersState = [
-+       { id: 1, name: 'test name', avatarUrl: 'test avatarUrl' },
++       { id: 1, login: 'test login', avatar_url: 'test avatar_url' },
 +     ];
 
 +     const payload = [
-+       { id: 2, name: 'test name 2', avatarUrl: 'test avatarUrl 2' },
-+       { id: 3, name: 'test name 3', avatarUrl: 'test avatarUrl 3' },
++       { id: 2, login: 'test login 2', avatar_url: 'test avatar_url 2' },
++       { id: 3, login: 'test login 3', avatar_url: 'test avatar_url 3' },
 +     ];
 
 +     const action = {
@@ -537,7 +537,7 @@ export const reducers = combineReducers<State>({
 -   LoginFormErrors, createEmptyLoginFormErrors,
 - } from './viewModel';
 - import { validations } from './validations';
-- import { LoginPage } from './page';
+import { LoginPage } from './page';
 - import { routes } from '../../common/constants/routes';
 - import { login } from '../../rest-api/api/login';
 - import { mapLoginEntityVMToModel } from './mappers';
@@ -564,6 +564,7 @@ import { State } from '../reducers';
 + import { updateLoginEntityField } from './actions/updateLoginEntityField';
 + import { loginRequest } from './actions/loginRequest';
 + import { LoginEntity } from './viewModel';
+import { LoginPage } from './page';
 
 const mapStateToProps = (state: State) => ({
   loginEntity: state.login.loginEntity,
@@ -639,7 +640,7 @@ import { State } from '../reducers';
 import { updateLoginEntityField } from './actions/updateLoginEntityField';
 import { loginRequest } from './actions/loginRequest';
 import { LoginEntity } from './viewModel';
-+ import { LoginPage } from './page';
+import { LoginPage } from './page';
 
 const mapStateToProps = (state: State) => ({
   loginEntity: state.login.loginEntity,
@@ -711,6 +712,140 @@ export const LoginPageContainer = connect(
 + mergeProps,
 )(LoginPage);
 
+```
+
+- Migrating `members` pageContainer:
+
+### ./src/pages/members/list/pageContainer.tsx
+```diff
+import * as React from 'react';
++ import { connect } from 'react-redux';
++ import { State } from '../../reducers';
++ import { mapMemberListModelToVM } from './mappers';
+import { MemberListPage } from './page';
+- import { Member } from './viewModel';
+- import { fetchMembers } from '../../../rest-api/api/member';
+- import { mapMemberListModelToVM } from './mappers';
+
++ const mapStateToProps = (state: State) => ({
++   members: mapMemberListModelToVM(state.members),
++ });
+
+- interface State {
+-   members: Member[];
+- }
+
+export class MemberListPageContainer extends React.PureComponent<{}, State> {
+-   state = {
+-     members: [],
+-   };
+...
+```
+
+- `mapDispatchToProps`:
+
+### ./src/pages/members/list/pageContainer.tsx
+```diff
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { State } from '../../reducers';
+import { mapMemberListModelToVM } from './mappers';
++ import { fetchMembers } from './actions/fetchMembers';
++ import { Member } from './viewModel';
+import { MemberListPage } from './page';
+
+const mapStateToProps = (state: State) => ({
+  members: mapMemberListModelToVM(state.members),
+});
+
++ const mapDispatchToProps = (dispatch) => ({
++   fetchMembers: () => dispatch(fetchMembers()),
++ });
+
++ interface Props {
++   members: Member[];
++   fetchMembers: () => void;
++ }
+
++ class PageContainer extends React.PureComponent<Props, {}> {
++   componentDidMount() {
++     this.props.fetchMembers();
++   }
+
++   render() {
++     return (
++       <MemberListPage
++         members={this.props.members}
++       />
++     );
++   }
++ }
+
+- export class MemberListPageContainer extends React.PureComponent<{}, State> {
+
+-   componentDidMount() {
+-     fetchMembers()
+-       .then((members) => {
+-         this.setState({
+-           members: mapMemberListModelToVM(members),
+-         });
+-       })
+-       .catch(alert);
+-   }
+
+-   render() {
+-     return (
+-       <MemberListPage
+-         members={this.state.members}
+-       />
+-     );
+-   }
+- }
+```
+
+- Update `container`:
+
+### ./src/pages/members/list/pageContainer.tsx
+```diff
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { State } from '../../reducers';
+import { mapMemberListModelToVM } from './mappers';
+import { fetchMembers } from './actions/fetchMembers';
+import { Member } from './viewModel';
+import { MemberListPage } from './page';
+
+const mapStateToProps = (state: State) => ({
+  members: mapMemberListModelToVM(state.members),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchMembers: () => dispatch(fetchMembers()),
+});
+
+interface Props {
+  members: Member[];
+  fetchMembers: () => void;
+}
+
+class PageContainer extends React.PureComponent<Props, {}> {
+  componentDidMount() {
+    this.props.fetchMembers();
+  }
+
+  render() {
+    return (
+      <MemberListPage
+        members={this.props.members}
+      />
+    );
+  }
+}
+
++ export const MemberListPageContainer = connect(
++   mapStateToProps,
++   mapDispatchToProps,
++ )(PageContainer);
 ```
 
 # About Lemoncode

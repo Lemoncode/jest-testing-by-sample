@@ -1,5 +1,5 @@
 import { actionIds } from '../actions/actionIds';
-import { Member } from '../viewModel';
+import { Member } from '../../../../rest-api/model';
 
 export type MembersState = Member[];
 
