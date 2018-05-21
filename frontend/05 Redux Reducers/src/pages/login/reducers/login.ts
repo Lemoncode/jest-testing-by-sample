@@ -4,7 +4,7 @@ import {
   LoginFormErrors, createEmptyLoginFormErrors,
 } from '../viewModel';
 
-interface LoginState {
+export interface LoginState {
   loginEntity: LoginEntity;
   loginFormErrors: LoginFormErrors;
 }
