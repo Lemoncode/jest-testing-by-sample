@@ -5,7 +5,13 @@ In this sample we are going to testing React components.
 We will start from sample _05 Redux Reducers_.
 
 Summary steps:
- - .
+ - Add `form/input` specs.
+ - Add `form/button` specs.
+ - Add `panel/components/header` specs.
+ - Add `panel/components/body` specs.
+ - Add `panel/panel` specs.
+ - Add `login/pageContainer` specs.
+ - Add `members/list/pageContainer` specs.
 
 # Steps to build it
 
@@ -13,7 +19,6 @@ Summary steps:
 
 ```bash
 npm install
-
 ```
 
 # About Lemoncode
