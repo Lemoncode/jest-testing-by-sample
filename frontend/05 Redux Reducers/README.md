@@ -7,6 +7,7 @@ We will start from sample _04 Redux Actions_.
 Summary steps:
  - Implement and add unit tests to `login` reducer.
  - Implement and add unit tests to `members` reducer.
+ - Update `pageContainer`s to use Redux.
 
 # Steps to build it
 
@@ -104,7 +105,7 @@ export const loginReducer = (state = createEmptyState(), action) => {
 
 - Now, we could start with unit tests:
 
-### ./src/pages/login/reducers/login.ts
+### ./src/pages/login/reducers/login.spec.ts
 ```javascript
 import { loginReducer } from './login';
 
@@ -117,12 +118,11 @@ describe('login/reducers/loginReducer tests', () => {
     // Assert
   });
 });
-
 ```
 
 - Should return initial state:
 
-### ./src/pages/login/reducers/login.ts
+### ./src/pages/login/reducers/login.spec.ts
 ```diff
 + import { FieldValidationResult } from 'lc-form-validation';
 import { loginReducer } from './login';
@@ -148,7 +148,7 @@ describe('login/reducers/loginReducer tests', () => {
 
 - Should return same state without mutate it:
 
-### ./src/pages/login/reducers/login.ts
+### ./src/pages/login/reducers/login.spec.ts
 ```diff
 import { FieldValidationResult } from 'lc-form-validation';
 + import * as deepFreeze from 'deep-freeze';
@@ -182,9 +182,9 @@ import { FieldValidationResult } from 'lc-form-validation';
 + });
 ```
 
-- Should return update state without mutate it when update login field:
+- Should return updated state without mutate it when update login field:
 
-### ./src/pages/login/reducers/login.ts
+### ./src/pages/login/reducers/login.spec.ts
 ```diff
 import { FieldValidationResult } from 'lc-form-validation';
 import * as deepFreeze from 'deep-freeze';
@@ -192,7 +192,7 @@ import * as deepFreeze from 'deep-freeze';
 import { loginReducer, LoginState } from './login';
 
 ...
-+ it(`should return update state without mutate it
++ it(`should return updated state without mutate it
 + when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and login field payload`, () => {
 +     // Arrange
 +     const state: LoginState = {
@@ -234,12 +234,12 @@ import { loginReducer, LoginState } from './login';
 +   });
 ```
 
-- Should return update state without mutate it when update password field:
+- Should return updated state without mutate it when update password field:
 
-### ./src/pages/login/reducers/login.ts
+### ./src/pages/login/reducers/login.spec.ts
 ```diff
 ...
-+ it(`should return update state without mutate it
++ it(`should return updated state without mutate it
 + when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and password field payload`, () => {
 +     // Arrange
 +     const state: LoginState = {
@@ -281,9 +281,9 @@ import { loginReducer, LoginState } from './login';
 +   });
 ```
 
-- Should return update state without mutate it when update form errors:
+- Should return updated state without mutate it when update form errors:
 
-### ./src/pages/login/reducers/login.ts
+### ./src/pages/login/reducers/login.spec.ts
 ```diff
 import { FieldValidationResult } from 'lc-form-validation';
 import * as deepFreeze from 'deep-freeze';
@@ -292,7 +292,7 @@ import { actionIds } from '../actions/actionIds';
 import { loginReducer, LoginState } from './login';
 
 ...
-+ it(`should return update state without mutate it
++ it(`should return updated state without mutate it
 + when passing state, UPDATE_LOGIN_FORM_ERRORS action type and loginFormErrors payload`, () => {
 +     // Arrange
 +     const state: LoginState = {
@@ -330,6 +330,140 @@ import { loginReducer, LoginState } from './login';
 +       errorMessage: 'test password message',
 +       succeeded: false,
 +     } as FieldValidationResult);
++   });
+```
+
+- Implementing `members` reducer:
+
+### ./src/pages/members/list/reducers/members.ts
+```javascript
+import { actionIds } from '../actions/actionIds';
+import { Member } from '../viewModel';
+
+export type MembersState = Member[];
+
+export const membersReducer = (state = [], action): MembersState => {
+  return state;
+};
+```
+
+- Implementing `handleUpdateMembers` statement:
+
+### ./src/pages/members/list/reducers/members.ts
+```diff
+import { actionIds } from '../actions/actionIds';
+import { Member } from '../viewModel';
+
+export type MembersState = Member[];
+
+export const membersReducer = (state = [], action): MembersState => {
++ switch (action.type) {
++   case actionIds.UPDATE_MEMBERS:
++     return handleUpdateMembers(state, action.payload);
++ }
+  return state;
+};
+
++ const handleUpdateMembers = (state: MembersState, members: Member[]): MembersState => (
++   members
++ );
+```
+
+- Now, we could start with unit tests:
+
+### ./src/pages/members/list/reducers/members.spec.ts
+```javascript
+import { membersReducer, MembersState } from './members';
+
+describe('members/list/reducers/membersReducer tests', () => {
+  it('', () => {
+    // Arrange
+
+    // Act
+
+    // Assert
+  });
+});
+```
+
+- Should return initial state:
+
+### ./src/pages/members/list/reducers/members.spec.ts
+```diff
+import { membersReducer, MembersState } from './members';
+
+describe('members/list/reducers/membersReducer tests', () => {
+- it('', () => {
++ it('should return initial state when passing undefined state and some action type', () => {
+    // Arrange
++   const state = undefined;
++   const action = { type: 'some type' };
+
+    // Act
++   const nextState = membersReducer(state, action);
+
+    // Assert
++   expect(nextState).toEqual([]);
+  });
+});
+```
+
+- Should return same state without mutate it:
+
+### ./src/pages/members/list/reducers/members.spec.ts
+```diff
++ import * as deepFreeze from 'deep-freeze';
+import { membersReducer, MembersState } from './members';
+...
++ it('should return same state without mutate it when passing state and some action type', () => {
++   // Arrange
++   const state: MembersState = [
++     { id: 1, name: 'test name', avatarUrl: 'test avatarUrl' },
++   ];
++   const action = { type: 'some type' };
++   deepFreeze(state);
+
++   // Act
++   const nextState = membersReducer(state, action);
+
++   // Assert
++   expect(nextState).toEqual([
++     { id: 1, name: 'test name', avatarUrl: 'test avatarUrl' },
++   ]);
++ });
+```
+
+- Should return updated state without mutate it when update members:
+
+### ./src/pages/members/list/reducers/members.spec.ts
+```diff
+import * as deepFreeze from 'deep-freeze';
++ import { actionIds } from '../actions/actionIds';
+import { membersReducer, MembersState } from './members';
+...
++ it(`should return updated state without mutate it
++ when passing state, actionIds.UPDATE_MEMBERS action type and members payload`, () => {
++     // Arrange
++     const state: MembersState = [
++       { id: 1, name: 'test name', avatarUrl: 'test avatarUrl' },
++     ];
+
++     const payload = [
++       { id: 2, name: 'test name 2', avatarUrl: 'test avatarUrl 2' },
++       { id: 3, name: 'test name 3', avatarUrl: 'test avatarUrl 3' },
++     ];
+
++     const action = {
++       type: actionIds.UPDATE_MEMBERS,
++       payload,
++     };
++     deepFreeze(state);
+
++     // Act
++     const nextState = membersReducer(state, action);
+
++     // Assert
++     expect(nextState).toEqual(payload);
 +   });
 ```
 

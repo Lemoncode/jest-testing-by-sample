@@ -45,7 +45,7 @@ describe('login/reducers/loginReducer tests', () => {
     expect(nextState.loginFormErrors.password).toEqual(new FieldValidationResult());
   });
 
-  it(`should return update state without mutate it
+  it(`should return updated state without mutate it
   when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and login field payload`, () => {
       // Arrange
       const state: LoginState = {
@@ -86,7 +86,7 @@ describe('login/reducers/loginReducer tests', () => {
       expect(nextState.loginFormErrors.password).toEqual(new FieldValidationResult());
     });
 
-  it(`should return update state without mutate it
+  it(`should return updated state without mutate it
   when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and password field payload`, () => {
       // Arrange
       const state: LoginState = {
@@ -127,7 +127,7 @@ describe('login/reducers/loginReducer tests', () => {
       } as FieldValidationResult);
     });
 
-  it(`should return update state without mutate it
+  it(`should return updated state without mutate it
   when passing state, UPDATE_LOGIN_FORM_ERRORS action type and loginFormErrors payload`, () => {
       // Arrange
       const state: LoginState = {
