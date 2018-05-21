@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`common/components/panel/body tests should render as expected when passing required properties 1`] = `
+<ul
+  className="list-group list-group-flush"
+>
+  <li
+    className="list-group-item"
+  >
+    <h1>
+      Test children component
+    </h1>
+  </li>
+</ul>
+`;
