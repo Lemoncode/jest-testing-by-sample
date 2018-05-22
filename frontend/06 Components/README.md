@@ -473,6 +473,183 @@ describe('common/components/form/button specs', () => {
 + });
 ```
 
+- Adding `login/pageContainer` specs:
+
+### ./src/pages/login/pageContainer.spec.tsx
+```javascript
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import { LoginPageContainer } from './pageContainer';
+
+describe('pages/login/pageContainer tests', () => {
+  it('should render as expected', () => {
+    // Arrange
+
+    // Act
+
+    // Assert
+  });
+});
+```
+
+- Implementing snapshot specs:
+
+### ./src/pages/login/pageContainer.spec.tsx
+```diff
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import { LoginPageContainer } from './pageContainer';
+
+describe('pages/login/pageContainer tests', () => {
+  it('should render as expected', () => {
+    // Arrange
+
+    // Act
++   const component = shallow(
++     <LoginPageContainer
++     />,
++   );
+
+    // Assert
++   expect(component).toMatchSnapshot();
+  });
+});
+```
+
+- As we see, this spec is failing because we need provide the Redux `store`. It's time to use `redux-mock-store` again:
+
+> NOTE: Instead of use Provider from `react-redux` and mount, we are providing context by shallow method.
+
+### ./src/pages/login/pageContainer.spec.tsx
+```diff
+import * as React from 'react';
+import { shallow } from 'enzyme';
++ import configureStore from 'redux-mock-store';
++ import { State } from '../reducers';
++ import { createEmptyLoginFormErrors, createEmptyLoginEntity } from './viewModel';
+import { LoginPageContainer } from './pageContainer';
+
++ const getMockStore = configureStore();
+
+describe('pages/login/pageContainer tests', () => {
+- it('should render as expected', () => {
++ it('should render as expected passing state', () => {
+    // Arrange
++   const state = {
++     login: {
++       loginEntity: createEmptyLoginEntity(),
++       loginFormErrors: createEmptyLoginFormErrors(),
++     },
++   } as State;
+
++   const store = getMockStore(state);
+
+    // Act
+    const component = shallow(
+      <LoginPageContainer
+      />,
++     {
++       context: { store },
++     },
+    );
+
+    // Assert
+    expect(component).toMatchSnapshot();
+  });
+});
+```
+
+- Should call to `updateLoginEntityField` action creator:
+
+### ./src/pages/login/pageContainer.spec.tsx
+```diff
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
+import { State } from '../reducers';
+import { createEmptyLoginFormErrors, createEmptyLoginEntity } from './viewModel';
++ import * as updateFieldActions from './actions/updateLoginEntityField';
+import { LoginPageContainer } from './pageContainer';
+
+...
+
++ it('should call to updateLoginEntityField action creator when call to updateField prop', () => {
++   // Arrange
++   const state = {
++     login: {
++       loginEntity: createEmptyLoginEntity(),
++       loginFormErrors: createEmptyLoginFormErrors(),
++     },
++   } as State;
+
++   const store = getMockStore(state);
++   const actionCreatorStub = jest.spyOn(updateFieldActions, 'updateLoginEntityField')
++   .mockImplementation(() => ({
++     type: 'test action type',
++   }));
+
++   // Act
++   const component = shallow(
++     <LoginPageContainer
++     />,
++     {
++       context: { store },
++     },
++   );
+
++   component.prop('updateField')('test fieldName', 'test value');
+
++   // Assert
++   expect(actionCreatorStub).toHaveBeenCalledWith(state.login.loginEntity, 'test fieldName', 'test value');
++ });
+```
+
+- Should call to `loginRequest` action creator:
+
+### ./src/pages/login/pageContainer.spec.tsx
+```diff
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import configureStore from 'redux-mock-store';
+import { State } from '../reducers';
+import { createEmptyLoginFormErrors, createEmptyLoginEntity } from './viewModel';
+import * as updateFieldActions from './actions/updateLoginEntityField';
++ import * as loginRequestActions from './actions/loginRequest';
+import { LoginPageContainer } from './pageContainer';
+
+...
+
++ it('should call to loginRequest action creator when call to doLogin prop', () => {
++   // Arrange
++   const state = {
++     login: {
++       loginEntity: createEmptyLoginEntity(),
++       loginFormErrors: createEmptyLoginFormErrors(),
++     },
++   } as State;
+
++   const store = getMockStore(state);
++   const actionCreatorStub = jest.spyOn(loginRequestActions, 'loginRequest')
++     .mockImplementation(() => ({
++       type: 'test action type',
++     }));
+
++   // Act
++   const component = shallow(
++     <LoginPageContainer
++     />,
++     {
++       context: { store },
++     },
++   );
+
++   component.prop('doLogin')();
+
++   // Assert
++   expect(actionCreatorStub).toHaveBeenCalledWith(state.login.loginEntity);
++ });
+```
+
 # About Lemoncode
 
 We are a team of long-term experienced freelance developers, established as a group in 2010.
