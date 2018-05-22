@@ -371,13 +371,13 @@ describe('common/components/form/input specs', () => {
 
 - Adding `form/button` specs:
 
-### ./src/common/components/form/input.spec.tsx
+### ./src/common/components/form/button.spec.tsx
 ```javascript
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { Input } from './input';
+import { Button } from './button';
 
-describe('common/components/form/input specs', () => {
+describe('common/components/form/button specs', () => {
   it('should render as expected when passing required properties', () => {
     // Arrange
 
@@ -386,6 +386,91 @@ describe('common/components/form/input specs', () => {
     // Assert
   });
 });
+```
+
+- Should render passing required properties:
+
+### ./src/common/components/form/button.spec.tsx
+```diff
+import * as React from 'react';
+import { shallow } from 'enzyme';
+import { Button } from './button';
+
+describe('common/components/form/button specs', () => {
+  it('should render as expected when passing required properties', () => {
+    // Arrange
++   const props = {
++     label: 'test label',
++     onClick: () => {},
++   };
+
+    // Act
++   const component = shallow(
++     <Button
++       {...props}
++     />,
++   );
+
+    // Assert
++   expect(component).toMatchSnapshot();
+  });
+});
+```
+
+- Should render passing required and optional properties:
+
+### ./src/common/components/form/button.spec.tsx
+```diff
+...
++ it('should render as expected when passing required and optional properties', () => {
++   // Arrange
++   const props = {
++     label: 'test label',
++     onClick: () => {},
++     type: 'test type',
++   };
+
++   // Act
++   const component = shallow(
++     <Button
++       {...props}
++     />,
++   );
+
++   // Assert
++   expect(component).toMatchSnapshot();
++ });
+```
+
+- Should call onClick prop when simulate button click:
+
+### ./src/common/components/form/button.spec.tsx
+```diff
+...
++ it('should call onClick prop when simulate button click', () => {
++   // Arrange
++   const props = {
++     label: 'test label',
++     onClick: jest.fn(),
++     type: 'test type',
++   };
+
++   // Act
++   const component = shallow(
++     <Button
++       {...props}
++     />,
++   );
+
++   const preventDefaultSpy = jest.fn();
++   component.simulate('click', {
++     preventDefault: preventDefaultSpy,
++   });
+
++   // Assert
++   expect(props.onClick).toHaveBeenCalled();
++   expect(preventDefaultSpy).toHaveBeenCalled();
++ });
 ```
 
 # About Lemoncode
