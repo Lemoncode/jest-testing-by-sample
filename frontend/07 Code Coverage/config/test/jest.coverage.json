@@ -1,0 +1,30 @@
+{
+  "rootDir": "../../",
+  "testRegex": "\\.spec\\.tsx?$",
+  "moduleFileExtensions": [
+    "js",
+    "jsx",
+    "json",
+    "ts",
+    "tsx"
+  ],
+  "setupFiles": [
+    "<rootDir>/config/test/polyfills.js",
+    "<rootDir>/config/test/setupTest.js"
+  ],
+  "transform": {
+    ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  },
+  "restoreMocks": true,
+  "snapshotSerializers": [
+    "enzyme-to-json/serializer"
+  ],
+  "collectCoverage": true,
+  "coverageReporters": [
+    "html"
+  ],
+  "coveragePathIgnorePatterns": [
+    "/node_modules/",
+    "config/test"
+  ]
+}
