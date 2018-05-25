@@ -50,7 +50,10 @@ describe('pages/members/list/pageContainer tests', () => {
 
     const store = getMockStore(state);
 
-    const mapMemberListModelToVMStub = jest.spyOn(mappers, 'mapMemberListModelToVM');
+    const mapMemberListModelToVMStub = jest.spyOn(mappers, 'mapMemberListModelToVM')
+      .mockReturnValue([
+        { id: 1, name: 'test login', avatarUrl: 'tes avatar_url' },
+      ]);
 
     // Act
     const component = shallow(
