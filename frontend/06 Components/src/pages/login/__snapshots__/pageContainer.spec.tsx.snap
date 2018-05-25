@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages/login/pageContainer tests should render as expected passing state 1`] = `
+<Component
+  doLogin={[Function]}
+  loginEntity={
+    Object {
+      "login": "",
+      "password": "",
+    }
+  }
+  loginFormErrors={
+    Object {
+      "login": FieldValidationResult {
+        "errorMessage": "",
+        "key": "",
+        "succeeded": false,
+        "type": "",
+      },
+      "password": FieldValidationResult {
+        "errorMessage": "",
+        "key": "",
+        "succeeded": false,
+        "type": "",
+      },
+    }
+  }
+  updateField={[Function]}
+/>
+`;

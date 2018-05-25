@@ -9,10 +9,14 @@
     "tsx"
   ],
   "setupFiles": [
-    "<rootDir>/config/test/polyfills.js"
+    "<rootDir>/config/test/polyfills.js",
+    "<rootDir>/config/test/setupTest.js"
   ],
   "transform": {
     ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
   },
-  "restoreMocks": true
+  "restoreMocks": true,
+  "snapshotSerializers": [
+    "enzyme-to-json/serializer"
+  ]
 }
