@@ -111,7 +111,7 @@ describe('login/actions/updateLoginEntityField tests', () => {
 });
 ```
 
-- Should return action with values provided:
+- Should return action with provided values:
 
 ### ./src/pages/login/actions/updateLoginEntityField.spec.ts
 ```diff
@@ -145,7 +145,7 @@ describe('login/actions/updateLoginEntityField tests', () => {
 ...
 ```
 
-- We need mock the `redux-thunk` and `store` config:
+- We need to mock the `redux-thunk` and `store` config:
 
 > NOTE: Navigate to `configureStore` typings.
 
@@ -272,6 +272,18 @@ import { LoginEntity } from '../viewModel';
 ```
 
 - Should dispatch completed action:
+
+> NOTE: We could use:
+
+```javascript
+const validateFieldStub = jest.spyOn(validations, 'validateField')
+  .mockReturnValue({
+    then: function(callback) {
+      callback(fieldValidationResult);
+      return this;
+    },
+  });
+```
 
 ### ./src/pages/login/actions/updateLoginEntityField.spec.ts
 ```diff
