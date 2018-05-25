@@ -7,3 +7,4 @@ bundle.js
 package-lock.json
 .awcache/
 yarn.lock
+public/
