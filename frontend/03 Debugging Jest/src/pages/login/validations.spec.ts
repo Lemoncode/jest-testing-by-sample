@@ -15,8 +15,8 @@ describe('pages/login/validations specs', () => {
       .then((fieldValidationResult) => {
         // Assert
         expect(fieldValidationResult).toBeUndefined();
-      })
-      .then(done, done);
+        done();
+      });
   });
 
   it('should retun failed validation result when passing login field with empty value', (done) => {
@@ -34,8 +34,8 @@ describe('pages/login/validations specs', () => {
         // Assert
         expect(fieldValidationResult.succeeded).toBeFalsy();
         expect(fieldValidationResult.errorMessage).toEqual('Please fill in this mandatory field.');
-      })
-      .then(done, done);
+        done();
+      });
   });
 
   it('should retun succeeded validation result when passing login field with value', (done) => {
@@ -53,8 +53,8 @@ describe('pages/login/validations specs', () => {
         // Assert
         expect(fieldValidationResult.succeeded).toBeTruthy();
         expect(fieldValidationResult.errorMessage).toEqual('');
-      })
-      .then(done, done);
+        done();
+      });
   });
 
   it('should retun failed validation result when passing password field with empty value', (done) => {
@@ -72,8 +72,8 @@ describe('pages/login/validations specs', () => {
         // Assert
         expect(fieldValidationResult.succeeded).toBeFalsy();
         expect(fieldValidationResult.errorMessage).toEqual('Please fill in this mandatory field.');
-      })
-      .then(done, done);
+        done();
+      });
   });
 
   it('should retun succeeded validation result when passing password field with value', (done) => {
@@ -91,7 +91,7 @@ describe('pages/login/validations specs', () => {
         // Assert
         expect(fieldValidationResult.succeeded).toBeTruthy();
         expect(fieldValidationResult.errorMessage).toEqual('');
-      })
-      .then(done, done);
+        done();
+      });
   });
 });
