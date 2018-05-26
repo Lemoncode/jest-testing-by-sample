@@ -5,9 +5,10 @@ import { mapMemberListModelToVM } from './mappers';
 import { fetchMembers } from './actions/fetchMembers';
 import { Member } from './viewModel';
 import { MemberListPage } from './page';
+import { getMembersVM } from './selectors';
 
 const mapStateToProps = (state: State) => ({
-  members: mapMemberListModelToVM(state.members),
+  members: getMembersVM(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
