@@ -15,6 +15,31 @@ Summary steps:
 npm install
 ```
 
+- Remove sample spec created on previous sample:
+
+### ./src/sample.spec.ts
+```diff
+- describe('Sample tests', () => {
+-   it('should pass spec', () => {
+-     // Arrange
+
+-     // Act
+
+-     // Assert
+-     expect(true).toBeTruthy();
+-   });
+
+-   it('should fail spec', () => {
+-     // Arrange
+
+-     // Act
+
+-     // Assert
+-     expect(false).toBeTruthy();
+-   });
+- });
+```
+
 # About Lemoncode
 
 We are a team of long-term experienced freelance developers, established as a group in 2010.
