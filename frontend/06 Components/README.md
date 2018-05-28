@@ -831,12 +831,42 @@ interface Props {
 }
 
 export const Header = (props: Props) => (
-  <div className="card-header">
-  <div className="card-header">
+- <div className="card-header">
++ <div className={`card-header ${styles.header}`}>
     <h3 className="panel-title">{props.title}</h3>
   </div>
 );
 ```
+
+- If we run `npm test`, we could see some failed specs:
+
+```bash
+npm test
+```
+
+- Thats why we need install and configure [identity-obj-proxy](https://github.com/keyanzhang/identity-obj-proxy):
+
+### ./config/test/jest.json
+
+```diff
+...
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+-   ]
++   ],
++   "moduleNameMapper": {
++     "^.+\\.s?css$": "identity-obj-proxy"
++   }
+
+```
+
+- If we run now `npm run test:watch`, we could see that we have to update only one snapshot testing due to add a new css class:
+
+```bash
+npm run test:watch
+```
+
+- We need to press `u` jest option. This option only works if we have app code in a repository. If not, we have to remove `__snapshots__` folder and run again.
 
 # About Lemoncode
 
