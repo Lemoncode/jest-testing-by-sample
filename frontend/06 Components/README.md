@@ -805,6 +805,39 @@ import { MemberListPageContainer } from './pageContainer';
 + });
 ```
 
+## Testing components with CSS Modules
+
+The advantage using CSS Modules in components is that we have an unique identifier for class name. But we need to avoid that for testing.
+
+- Adding styles to panel header:
+
+### ./src/common/components/panel/components/header.scss
+```scss
+.header {
+  background-color: #28A745;
+  color: white;
+}
+```
+
+- Updating panel header:
+
+### ./src/common/components/panel/components/header.tsx
+```diff
+import * as React from 'react';
++ const styles = require('./header.scss');
+
+interface Props {
+  title: string;
+}
+
+export const Header = (props: Props) => (
+  <div className="card-header">
+  <div className="card-header">
+    <h3 className="panel-title">{props.title}</h3>
+  </div>
+);
+```
+
 # About Lemoncode
 
 We are a team of long-term experienced freelance developers, established as a group in 2010.
