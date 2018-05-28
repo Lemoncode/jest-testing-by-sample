@@ -129,7 +129,8 @@ npm i body-parser express -P
     "no-var-requires": false,
     "no-empty": false,
     "member-ordering": false,
-    "no-angle-bracket-type-assertion": false
+    "no-angle-bracket-type-assertion": false,
+    "no-object-literal-type-assertion": false
   }
 }
 ```

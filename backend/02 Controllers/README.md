@@ -5,7 +5,8 @@ In this sample we are going to testing controllers that belongs to API routes.
 We will start from sample _01 Add config_.
 
 Summary steps:
- - .
+ - Remove sample spec.
+ - Add login controller specs.
 
 # Steps to build it
 
@@ -38,6 +39,32 @@ npm install
 -     expect(false).toBeTruthy();
 -   });
 - });
+```
+
+- Adding `login controller` specs:
+
+### ./src/routers/login/controller.spec.ts
+```javascript
+import { LoginController } from './controller';
+
+describe('routers/login/controller tests', () => {
+  describe('post', () => {
+
+  });
+});
+```
+
+- Should return 401 when login and password equals undefined:
+
+### ./src/routers/login/controller.spec.ts
+```diff
+import { LoginController } from './controller';
+
+describe('routers/login/controller tests', () => {
+  describe('post', () => {
+
+  });
+});
 ```
 
 # About Lemoncode
