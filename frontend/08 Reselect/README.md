@@ -24,6 +24,27 @@ npm install -S reselect
 
 TypeScript definitions are included inside `reselect` so we don't need to install extra package from DefinitelyTyped (`@types`).
 
+- Add to webpack `vendors` section:
+
+### ./config/webpack/app/base.js
+```diff
+...
+    vendor: [
+      'babel-polyfill',
+      'lc-form-validation',
+      'react',
+      'react-dom',
+      'react-hot-loader',
+      'react-redux',
+      'react-router',
+      'redux',
+      'redux-thunk',
++     'reselect',
+      'whatwg-fetch',
+    ],
+...
+```
+
 First of all we'll identify what selectors does really need `reselect`. Let's have a look at our containers:
 
 - `pages/login/pageContainer.tsx` is using selectors directly. We could apply `reselect` but we don't gain anything from that since `mapStateToProps` is getting directly pointers to those objects from state.
