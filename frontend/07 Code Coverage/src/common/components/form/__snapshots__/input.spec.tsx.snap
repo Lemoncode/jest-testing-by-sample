@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`common/components/form/input specs should render as expected when passing required and optional properties 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    htmlFor="test name"
+  >
+    test label
+  </label>
+  <div
+    className="field"
+  >
+    <input
+      className="form-control is-invalid"
+      name="test name"
+      onBlur={[Function]}
+      onChange={[Function]}
+      type="test type"
+      value="test value"
+    />
+    <div
+      className="invalid-feedback"
+    >
+      test error
+    </div>
+  </div>
+</div>
+`;
+
+exports[`common/components/form/input specs should render as expected when passing required properties 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    htmlFor="test name"
+  >
+    test label
+  </label>
+  <div
+    className="field"
+  >
+    <input
+      className="form-control "
+      name="test name"
+      onChange={[Function]}
+      type="text"
+      value="test value"
+    />
+  </div>
+</div>
+`;
