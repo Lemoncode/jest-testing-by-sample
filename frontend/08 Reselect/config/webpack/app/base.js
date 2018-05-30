@@ -21,6 +21,7 @@ module.exports = merge(common, {
       'react-router',
       'redux',
       'redux-thunk',
+      'reselect',
       'whatwg-fetch',
     ],
     appStyles: [
