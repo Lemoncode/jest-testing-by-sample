@@ -805,6 +805,71 @@ import { MemberListPageContainer } from './pageContainer';
 + });
 ```
 
+## Testing components with CSS Modules
+
+The advantage using CSS Modules in components is that we have an unique identifier for class name. But we need to avoid that for testing.
+
+- Adding styles to panel header:
+
+### ./src/common/components/panel/components/header.scss
+```scss
+.header {
+  background-color: #28A745;
+  color: white;
+}
+```
+
+- Updating panel header:
+
+### ./src/common/components/panel/components/header.tsx
+```diff
+import * as React from 'react';
++ const styles = require('./header.scss');
+
+interface Props {
+  title: string;
+}
+
+export const Header = (props: Props) => (
+- <div className="card-header">
++ <div className={`card-header ${styles.header}`}>
+    <h3 className="panel-title">{props.title}</h3>
+  </div>
+);
+```
+
+- If we run `npm test`, we could see some failed specs:
+
+```bash
+npm test
+```
+
+- Thats why we need install and configure [identity-obj-proxy](https://github.com/keyanzhang/identity-obj-proxy):
+
+### ./config/test/jest.json
+
+```diff
+...
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+-   ]
++   ],
++   "moduleNameMapper": {
++     "^.+\\.s?css$": "identity-obj-proxy"
++   }
+
+```
+
+- If we run now `npm run test:watch`, we could see that we have to update only one snapshot testing due to add a new css class:
+
+```bash
+npm run test:watch
+```
+
+- We need to press `u` jest option. This option only works if we have app code in a repository (for jest@22). If not, we have to remove `__snapshots__` folder and run again.
+
+> It's fixed for jest@23
+
 # About Lemoncode
 
 We are a team of long-term experienced freelance developers, established as a group in 2010.

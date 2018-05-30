@@ -18,5 +18,8 @@
   "restoreMocks": true,
   "snapshotSerializers": [
     "enzyme-to-json/serializer"
-  ]
+  ],
+  "moduleNameMapper": {
+    "^.+\\.s?css$": "identity-obj-proxy"
+  }
 }

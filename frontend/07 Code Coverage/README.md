@@ -67,8 +67,11 @@ We'll add some extra configuration to our coverage reports. In order to do that 
     "restoreMocks": true,
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
--   ]
-+   ],
+    ],
+    "moduleNameMapper": {
+      "^.+\\.s?css$": "identity-obj-proxy"
+-   }
++   },
 +   "collectCoverage": true
   }
 ```
@@ -89,9 +92,7 @@ Let's play with some different reporting options. Add `coverageReporters` sectio
 #### `config/test/jest.coverage.json`
 
 ```diff
-  "snapshotSerializers": [
-    "enzyme-to-json/serializer"
-  ],
+...
 - "collectCoverage": true
 + "collectCoverage": true,
 + "coverageReporters": [
@@ -120,9 +121,7 @@ Let's keep `"html"` and `"text"` as our main reporters. The former will be usefu
 #### `config/test/jest.coverage.json`
 
 ```diff
-  "snapshotSerializers": [
-    "enzyme-to-json/serializer"
-  ],
+...
   "collectCoverage": true,
   "coverageReporters": [
     "text",
