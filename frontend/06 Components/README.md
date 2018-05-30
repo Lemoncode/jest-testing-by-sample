@@ -866,7 +866,9 @@ npm test
 npm run test:watch
 ```
 
-- We need to press `u` jest option. This option only works if we have app code in a repository. If not, we have to remove `__snapshots__` folder and run again.
+- We need to press `u` jest option. This option only works if we have app code in a repository (for jest@22). If not, we have to remove `__snapshots__` folder and run again.
+
+> It's fixed for jest@23
 
 # About Lemoncode
 
