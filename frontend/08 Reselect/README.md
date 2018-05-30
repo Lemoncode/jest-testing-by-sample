@@ -29,24 +29,7 @@ First of all we'll identify what selectors does really need `reselect`. Let's ha
 - `pages/login/pageContainer.tsx` is using selectors directly. We could apply `reselect` but we don't gain anything from that since `mapStateToProps` is getting directly pointers to those objects from state.
 - `pages/members/pageContainer.tsx` on the other hand is using a mapper to transform members list on every state change. It is a good candidate for a memoized selector because if there are multiple mounted containers requesting same mapped list the list could be computed once and be served by as many containers as needed.
 
-First of all let's create a dummy function that create an empty state object called `mockInitialState.ts`:
-
-#### `test/mockInitialState.ts`
-
-```ts
-import { State } from '../src/pages/reducers';
-import { createEmptyLoginEntity, createEmptyLoginFormErrors } from '../src/pages/login/viewModel';
-
-export const mockInitialState = (): State => ({
-  login: {
-    loginEntity: createEmptyLoginEntity(),
-    loginFormErrors: createEmptyLoginFormErrors(),
-  },
-  members: [],
-});
-```
-
-This function will be helpful to not create a state object every time we need to test a selector. Let's implement the required selector that gets member list from state:
+Let's implement the required selector that gets member list from state:
 
 #### `src/pages/members/list/selectors.ts`
 
@@ -102,52 +85,38 @@ It's time for unit testing this selector:
 
 ```ts
 import { getMembers, getMembersVM } from './selectors';
+import { State } from '../../reducers';
 
 describe('pages/members/list/selectors specs', () => {
 
 });
 ```
 
-To not create a new state for every test let's use `mockInitialState` in a `beforeEach` test:
-
-```diff
-  import { getMembers, getMembersVM } from './selectors';
-+ import { State } from '../../reducers';
-+ import { mockInitialState } from '../../../../test/mockInitialState';
-
-  describe('pages/members/list/selectors specs', () => {
-+   let state: State;
-+
-+   beforeEach(() => {
-+     state = mockInitialState();
-+   });
-  });
-```
-
 Let's add tests for `getMembers` selector:
 
 ```diff
-  beforeEach(() => {
-    state = mockInitialState();
-  });
-+ describe('getMembers', () => {
-+   it('should return members from state', () => {
-+     // Arrange
-+     state.members = [
-+       {
-+         id: 1,
-+         login: 'login member 1',
-+         avatar_url: 'avatar member 1',
-+       },
-+     ];
+  describe('pages/members/list/selectors specs', () => {
++   describe('getMembers', () => {
++     it('should return members from state', () => {
++       // Arrange
++       const state = {
++         members: [
++           {
++             id: 1,
++             login: 'login member 1',
++             avatar_url: 'avatar member 1',
++           },
++         ],
++       } as State;
 +
-+     // Act
-+     const result = getMembers(state);
++       // Act
++       const result = getMembers(state);
 +
-+     // Assert
-+     expect(result).toEqual(state.members);
++       // Assert
++       expect(result).toEqual(state.members);
++     });
 +   });
-+  });
+  });
 ```
 
 Only a test is enough since `state` will be provided by `connect` from Redux. Let's implement a test for our memoized selector:
@@ -157,23 +126,25 @@ Only a test is enough since `state` will be provided by `connect` from Redux. Le
 +   describe('getMembersVM', () => {
 +     it('should return the expected mapped member list', () => {
 +       // Arrange
-+       state.members = [
-+        {
-+           id: 1,
-+           login: 'login member 1',
-+           avatar_url: 'avatar member 1',
-+         },
-+         {
-+           id: 2,
-+           login: 'login member 2',
-+           avatar_url: 'avatar member 2',
-+         },
-+         {
-+           id: 3,
-+           login: 'login member 3',
-+           avatar_url: 'avatar member 3',
-+         },
-+       ];
++       const state = {
++         members: [
++           {
++             id: 1,
++             login: 'login member 1',
++             avatar_url: 'avatar member 1',
++           },
++           {
++             id: 2,
++             login: 'login member 2',
++             avatar_url: 'avatar member 2',
++           },
++           {
++             id: 3,
++             login: 'login member 3',
++             avatar_url: 'avatar member 3',
++           },
++         ],
++       } as State;
 +       const expectedMappedMemberList: vm.Member[] = [
 +         {
 +           id: 1,
