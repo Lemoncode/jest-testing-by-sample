@@ -8,4 +8,3 @@ package-lock.json
 .awcache/
 yarn.lock
 coverage/
-public/
