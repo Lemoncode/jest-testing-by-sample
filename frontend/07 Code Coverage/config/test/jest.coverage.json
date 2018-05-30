@@ -21,6 +21,7 @@
   ],
   "collectCoverage": true,
   "coverageReporters": [
+    "text",
     "html"
   ],
   "coveragePathIgnorePatterns": [

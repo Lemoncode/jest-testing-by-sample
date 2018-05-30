@@ -23,7 +23,7 @@ To get an up and working code coverage a simple script can be added to package.j
 ```diff
   "build:dev": "rimraf dist && env-cmd .env cross-env NODE_ENV=development webpack --config ./config/webpack/app/dev.js",
   "build:prod": "rimraf dist && env-cmd .env cross-env NODE_ENV=production webpack -p --config ./config/webpack/app/prod.js",
-- "test": "jest -c ./config/test/jest.json --verbose",
+  "test": "jest -c ./config/test/jest.json --verbose",
 + "test:coverage": "rimraf coverage && jest -c ./config/test/jest.json --verbose --coverage",
   "test:watch": "jest -c ./config/test/jest.json --verbose --watchAll -i"
 ```
@@ -41,10 +41,10 @@ You'll note two things. First of all, we get a nice formatted table with a cover
 Described columns are:
 - **Function coverage** -  How many functions or subrutines in the program have been called
 - **Statement coverage** -  How many statements has been executed
-- ** Branch coverage** - How many posible paths has been called
+- **Branch coverage** - How many posible paths has been called
 - **Line coverage** How many executable lines has been called
 
-Second thing you'll note is that a `coverage` folder is added with some extra files. By default jest uses three coverage tools ["text", "lcov", "json"], to report coverage results. The first one is the formatted table you saw on the console, `json` coverage result is located at `coverage/coverage-fina.json` and `lcov` reports are inside `coverage/lcov-report` folder as a nice HTML document. Some extra info is added to the code is:
+Second thing you'll note is that a `coverage` folder is added with some extra files. By default jest uses three coverage tools ["text", "lcov", "json"], to report coverage results. The first one is the formatted table you saw on the console, `json` coverage result is located at `coverage/coverage-final.json` and `lcov` reports are inside `coverage/lcov-report` folder as a nice HTML document. Some extra info is added to the code:
 
 - `'E'` stands for 'else path not taken', which means that for the marked if/else statement, the 'if' path has been tested but not the 'else'.
 - `'I'` stands for 'if path not taken', which is the opposite case: the 'if' hasn't been tested.
@@ -57,7 +57,7 @@ And some colors:
 - **Orange**: functions not covered.
 - **Yellow**: branches not covered.
 
-We'll add some extra configuration to our coverage reports. In order to do that first we'll create another jest configuration file called `jest.coverage.json` with the exact content as the previous configuration it was using. We'll add an extra line to tell jest we wan to include coverage report using this new config:
+We'll add some extra configuration to our coverage reports. In order to do that first we'll create another jest configuration file called `jest.coverage.json` with the exact content as the previous configuration it was using. We'll add an extra line to tell jest we want to include coverage report using this new config:
 
 #### `config/test/jest.coverage.json`
 
@@ -102,12 +102,33 @@ Let's play with some different reporting options. Add `coverageReporters` sectio
 You'll see executing `npm run test:coverage` that the `coverage` folder was not created and only coverage reports were reported on the terminal. This is useful for CI environments since it does not create unnecessary files in disk.
 
 > Note: test another reporters like `clover`, `cobertura`, `html`, `lcovonly`, `json-summary`
+>
 > clover and cobertura: XML format
+>
 > html, lcov: HTML format (lcov also provides lcov.info)
+>
 > json, json-summary: JSON format
+>
 > lcovonly: lcov.info file
-> text, text-summary, teamcity: terminak output
+>
+> text, text-summary, teamcity: terminal output
+>
 > text-lcov: text-summary + lcov.info content via terminal
+
+Let's keep `"html"` and `"text"` as our main reporters. The former will be useful for us to have a detailed report of our files. The latter will be useful for some things like Continuous Integration.
+
+#### `config/test/jest.coverage.json`
+
+```diff
+  "snapshotSerializers": [
+    "enzyme-to-json/serializer"
+  ],
+  "collectCoverage": true,
+  "coverageReporters": [
+    "text",
++   "html"
+  ]
+```
 
 We'll notice that in our tests `polyfills.js` and `setupTest.js` are coverage-reported too. Let's exclude that folder. For that we'll use `coveragePathIgnorePatterns` option:
 
@@ -116,6 +137,7 @@ We'll notice that in our tests `polyfills.js` and `setupTest.js` are coverage-re
 ```diff
   "collectCoverage": true,
   "coverageReporters": [
+    "text"
     "html"
 - ]
 + ],
@@ -125,7 +147,7 @@ We'll notice that in our tests `polyfills.js` and `setupTest.js` are coverage-re
 + ]
 ```
 
-We can configure a minimum threshold enforcement for coverage results. If trehsolds aren't met, jest will fail.
+We can configure a minimum threshold enforcement for coverage results. If thresholds aren't met, jest will fail.
 
 #### `config/test/jest.coverage.json`
 
