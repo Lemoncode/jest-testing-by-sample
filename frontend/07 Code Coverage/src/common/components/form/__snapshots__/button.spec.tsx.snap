@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`common/components/form/button specs should render as expected when passing required and optional properties 1`] = `
+<button
+  className="btn btn-lg btn-success btn-block"
+  onClick={[Function]}
+  type="test type"
+>
+  test label
+</button>
+`;
+
+exports[`common/components/form/button specs should render as expected when passing required properties 1`] = `
+<button
+  className="btn btn-lg btn-success btn-block"
+  onClick={[Function]}
+  type="submit"
+>
+  test label
+</button>
+`;
