@@ -1,26 +1,21 @@
 import { getMembers, getMembersVM } from './selectors';
 import { State } from '../../reducers';
-import { mockInitialState } from '../../../../test/mockInitialState';
 import * as mappers from './mappers';
 import * as vm from './viewModel';
 
 describe('pages/members/list/selectors specs', () => {
-  let state: State;
-
-  beforeEach(() => {
-    state = mockInitialState();
-  });
-
   describe('getMembers', () => {
     it('should return members from state', () => {
       // Arrange
-      state.members = [
-        {
-          id: 1,
-          login: 'login member 1',
-          avatar_url: 'avatar member 1',
-        },
-      ];
+      const state = {
+        members: [
+          {
+            id: 1,
+            login: 'login member 1',
+            avatar_url: 'avatar member 1',
+          },
+        ],
+      } as State;
 
       // Act
       const result = getMembers(state);
@@ -33,23 +28,25 @@ describe('pages/members/list/selectors specs', () => {
   describe('getMembersVM', () => {
     it('should return the expected mapped member list', () => {
       // Arrange
-      state.members = [
-        {
-          id: 1,
-          login: 'login member 1',
-          avatar_url: 'avatar member 1',
-        },
-        {
-          id: 2,
-          login: 'login member 2',
-          avatar_url: 'avatar member 2',
-        },
-        {
-          id: 3,
-          login: 'login member 3',
-          avatar_url: 'avatar member 3',
-        },
-      ];
+      const state = {
+        members: [
+          {
+            id: 1,
+            login: 'login member 1',
+            avatar_url: 'avatar member 1',
+          },
+          {
+            id: 2,
+            login: 'login member 2',
+            avatar_url: 'avatar member 2',
+          },
+          {
+            id: 3,
+            login: 'login member 3',
+            avatar_url: 'avatar member 3',
+          },
+        ],
+      } as State;
       const expectedMappedMemberList: vm.Member[] = [
         {
           id: 1,
