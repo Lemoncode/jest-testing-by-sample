@@ -19,6 +19,9 @@
   "snapshotSerializers": [
     "enzyme-to-json/serializer"
   ],
+  "moduleNameMapper": {
+    "^.+\\.s?css$": "identity-obj-proxy"
+  },
   "collectCoverage": true,
   "coverageReporters": [
     "text",
