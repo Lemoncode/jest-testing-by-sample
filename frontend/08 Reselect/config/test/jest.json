@@ -18,14 +18,5 @@
   "restoreMocks": true,
   "snapshotSerializers": [
     "enzyme-to-json/serializer"
-  ],
-  "collectCoverage": true,
-  "coverageReporters": [
-    "text",
-    "html"
-  ],
-  "coveragePathIgnorePatterns": [
-    "/node_modules/",
-    "config/test"
   ]
 }
