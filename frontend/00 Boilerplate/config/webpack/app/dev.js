@@ -1,24 +1,39 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const base = require('./base');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const helpers = require('../../helpers');
 
-const hotReloadingEntries = [
-  'react-hot-loader/patch',
-];
-
-module.exports = merge.strategy({
-  entry: 'prepend',
-})(base, {
+module.exports = merge(base, {
+  mode: 'development',
   devtool: 'inline-source-map',
-  entry: {
-    app: hotReloadingEntries,
-    appStyles: hotReloadingEntries,
-  },
   output: {
     path: helpers.resolveFromRootPath('dist'),
     filename: '[name].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              camelCase: true,
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+          },
+          { loader: 'sass-loader' },
+        ],
+      },
+    ],
   },
   devServer: {
     contentBase: helpers.resolveFromRootPath('dist'),
@@ -31,8 +46,5 @@ module.exports = merge.strategy({
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new ExtractTextPlugin({
-      disable: true,
-    }),
   ],
 });

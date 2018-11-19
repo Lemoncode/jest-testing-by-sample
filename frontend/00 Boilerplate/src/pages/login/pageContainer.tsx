@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { history } from '../../history';
 import {
-  LoginEntity, createEmptyLoginEntity,
-  LoginFormErrors, createEmptyLoginFormErrors,
+  LoginEntity,
+  createEmptyLoginEntity,
+  LoginFormErrors,
+  createEmptyLoginFormErrors,
 } from './viewModel';
 import { validations } from './validations';
 import { LoginPage } from './page';
@@ -23,7 +25,8 @@ export class LoginPageContainer extends React.PureComponent<{}, State> {
   };
 
   updateField = (fieldName: string, value: any) => {
-    validations.validateField(this.state.loginEntity, fieldName, value)
+    validations
+      .validateField(this.state.loginEntity, fieldName, value)
       .then((fieldValidationResult) => {
         this.setState({
           loginEntity: {
@@ -39,11 +42,12 @@ export class LoginPageContainer extends React.PureComponent<{}, State> {
   }
 
   doLogin = () => {
-    validations.validateForm(this.state.loginEntity)
+    validations
+      .validateForm(this.state.loginEntity)
       .then((formValidationResult) => {
-        formValidationResult.succeeded ?
-          this.loginRequest() :
-          this.displayErrors(formValidationResult.fieldErrors);
+        formValidationResult.succeeded
+          ? this.loginRequest()
+          : this.displayErrors(formValidationResult.fieldErrors);
       });
   }
 
@@ -56,14 +60,13 @@ export class LoginPageContainer extends React.PureComponent<{}, State> {
       .catch(alert);
   }
 
-  displayErrors = (fieldErrors: FieldValidationResult[]) => {
-    const loginFormErrors = fieldErrors.reduce((errors, fieldValidationResult) => ({
-      ...errors,
-      [fieldValidationResult.key]: fieldValidationResult,
-    }), createEmptyLoginFormErrors());
-
+  displayErrors = (fieldErrors: { [key: string]: FieldValidationResult }) => {
     this.setState({
-      loginFormErrors,
+      ...this.state,
+      loginFormErrors: {
+        ...this.state.loginFormErrors,
+        ...fieldErrors,
+      },
     });
   }
 

@@ -4,7 +4,7 @@ In this sample we are going to setup the basic plumbing to "build" our project a
 
 # Steps
 
-- We are going to use [`lemoncode-cli`](https://github.com/Lemoncode/lemoncode-cli) to get a basic config with TypeScript, Webpack and React.
+- We are going to add a basic webpack configuration (splitted into production and development) based in TypeScript, Webpack and React.
 
 - Then we will add components that we had used on [`react-by-sample`](https://github.com/Lemoncode/react-by-sample):
     - 12 TableHttp sample
