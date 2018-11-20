@@ -42,7 +42,7 @@ npm install jest @types/jest ts-jest raf -D
 We have two options to render components: `react-test-renderer` or `enzyme`.
 
 - [react-test-renderer](https://www.npmjs.com/package/react-test-renderer): provides an experimental React renderer that can be used to render React components to pure JavaScript objects, without depending on the DOM or a native mobile environment.
-  - Pros: no necessary other library to snapshot testing
+  - Pros: it isn't necessary other library to snapshot testing
   - Cons: hard to test DOM events or other manipulation.
   - [Sample](https://facebook.github.io/jest/docs/en/snapshot-testing.html#snapshot-testing-with-jest)
 
@@ -70,9 +70,10 @@ npm install enzyme @types/enzyme enzyme-to-json enzyme-adapter-react-16 -D
 npm install deep-freeze @types/deep-freeze @types/redux-mock-store identity-obj-proxy -D
 ```
 
-- Save exact version due to [breaking changes in 1.5 version](https://github.com/arnaudbenard/redux-mock-store/issues/135)
+- [redux-mock-store](https://github.com/dmitry-zaets/redux-mock-store): A mock store for testing Redux async action creators and middleware.
+
 ```bash
-npm install redux-mock-store@1.4 -D -E
+npm install redux-mock-store -D
 ```
 
 ## Configuration
@@ -125,6 +126,7 @@ NOTE:
 +     "ts",
 +     "tsx"
 +   ]
++ }
 }
 ```
 

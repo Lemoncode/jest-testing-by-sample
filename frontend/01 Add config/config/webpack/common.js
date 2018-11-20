@@ -1,6 +1,4 @@
-const webpack = require('webpack');
 const { CheckerPlugin } = require('awesome-typescript-loader');
-const helpers = require('../helpers');
 
 module.exports = {
   resolve: {
@@ -33,10 +31,8 @@ module.exports = {
         test: /\.(png|jpg|ico|gif)?$/,
         loader: 'url-loader?limit=10000',
       },
-    ]
+    ],
   },
 
-  plugins: [
-    new CheckerPlugin(),
-  ],
-}
+  plugins: [new CheckerPlugin()],
+};
