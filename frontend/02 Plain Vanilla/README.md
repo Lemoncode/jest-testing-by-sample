@@ -67,6 +67,7 @@ describe('pages/login/mappers specs', () => {
 ### ./src/pages/login/mappers.spec.ts
 ```diff
 + import * as model from '../../rest-api/model';
++ import * as vm from './viewModel';
 import { mapLoginEntityVMToModel } from './mappers';
 
 describe('pages/login/mappers specs', () => {
@@ -219,8 +220,9 @@ import * as model from '../../../rest-api/model';
 import * as vm from './viewModel';
 
 export const mapMemberListModelToVM = (members: model.Member[]): vm.Member[] => (
+- members.map(mapMemberModelToVM)
 + Array.isArray(members) ?
-    members.map(mapMemberModelToVM) :
++   members.map(mapMemberModelToVM) :
 +   []
 );
 
@@ -306,7 +308,6 @@ const mapMemberModelToVM = (member: model.Member): vm.Member => ({
 
 ### ./src/pages/members/list/mappers.spec.ts
 ```diff
-+ import * as vm from './viewModel';
 ...
 +   it('should return array with two items when passing members equals array with two items', () => {
 +     // Arrange
