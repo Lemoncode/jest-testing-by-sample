@@ -108,7 +108,7 @@ NOTE:
 }
 ```
 
-- [Jest configuration](https://facebook.github.io/jest/docs/en/configuration.html#options):
+- [ts-jest basic configuration](https://kulshekhar.github.io/ts-jest/user/config/#basic-usage):
 
 ### ./package.json
 
@@ -118,16 +118,8 @@ NOTE:
 - }
 + },
 + "jest": {
-+   "testRegex": "\\.spec\\.tsx?$",
-+   "moduleFileExtensions": [
-+     "js",
-+     "jsx",
-+     "json",
-+     "ts",
-+     "tsx"
-+   ]
++   "preset": "ts-jest"
 + }
-}
 ```
 
 - Set up polyfills _config/test/polyfills.js and add `raf`:
@@ -145,44 +137,34 @@ require('raf/polyfill');
 {
   ...
   "jest": {
-    "testRegex": "\\.spec\\.tsx?$",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
--   ]
-+   ],
+-   "preset": "ts-jest"
++   "preset": "ts-jest",
 +   "setupFiles": [
 +     "<rootDir>/config/test/polyfills.js"
 +   ]
 }
 ```
 
-- TypeScript configuration:
+> [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
 
-### ./package.json
+- If we run tests with this config, we will see a warning:
+
+```
+ts-jest[config] (WARN) TypeScript diagnostics (customize using `[jest-config].globals.ts-jest.diagnostics` option):message TS151001: If you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`). See https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability for more information.
+```
+
+- So, we have to add this field to `tsconfig` file:
+
+### ./tsconfig.json
+
 ```diff
 {
   ...
-  "jest": {
-    "testRegex": "\\.spec\\.tsx?$",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/test/polyfills.js"
--   ]
-+   ],
-+   "transform": {
-+     ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-+   }
-  }
+  "allowJs": true,
+  "suppressImplicitAnyIndexErrors": true,
+- "skipLibCheck": true
++ "skipLibCheck": true,
++ "esModuleInterop": true
 }
 ```
 
@@ -193,21 +175,11 @@ require('raf/polyfill');
 {
   ...
   "jest": {
-    "testRegex": "\\.spec\\.tsx?$",
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "ts",
-      "tsx"
-    ],
+    "preset": "ts-jest",
     "setupFiles": [
       "<rootDir>/config/test/polyfills.js"
-    ],
-    "transform": {
-      ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
--   }
-+   },
+-   ]
++   ],
 +   "restoreMocks": true
   }
 }
@@ -276,20 +248,10 @@ One step over, we could be moved jest config outside `package.json` to improve m
 - },
 + }
 - "jest": {
--   "testRegex": "\\.spec\\.tsx?$",
--   "moduleFileExtensions": [
--     "js",
--     "jsx",
--     "json",
--     "ts",
--     "tsx"
--   ],
+-   "preset": "ts-jest",
 -   "setupFiles": [
 -     "<rootDir>/config/test/polyfills.js"
 -   ],
--   "transform": {
--      ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
--   },
 -   "restoreMocks": true
 - }
 }
@@ -298,20 +260,10 @@ One step over, we could be moved jest config outside `package.json` to improve m
 ### ./config/test/jest.json
 ```json
 {
-  "testRegex": "\\.spec\\.tsx?$",
-  "moduleFileExtensions": [
-    "js",
-    "jsx",
-    "json",
-    "ts",
-    "tsx"
-  ],
+  "preset": "ts-jest",
   "setupFiles": [
     "<rootDir>/config/test/polyfills.js"
   ],
-  "transform": {
-    ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-  },
   "restoreMocks": true
 }
 ```
@@ -324,20 +276,10 @@ One step over, we could be moved jest config outside `package.json` to improve m
 ```diff
 {
 + "rootDir": "../../",
-  "testRegex": "\\.spec\\.tsx?$",
-  "moduleFileExtensions": [
-    "js",
-    "jsx",
-    "json",
-    "ts",
-    "tsx"
-  ],
+  "preset": "ts-jest",
   "setupFiles": [
     "<rootDir>/config/test/polyfills.js"
   ],
-  "transform": {
-    ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-  },
   "restoreMocks": true
 }
 ```
