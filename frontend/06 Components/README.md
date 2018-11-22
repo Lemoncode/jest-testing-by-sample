@@ -41,24 +41,14 @@ enzyme.configure({ adapter: new Adapter() });
 ```diff
 {
   "rootDir": "../../",
-  "testRegex": "\\.spec\\.tsx?$",
-  "moduleFileExtensions": [
-    "js",
-    "jsx",
-    "json",
-    "ts",
-    "tsx"
-  ],
+  "preset": "ts-jest",
+  "restoreMocks": true,
   "setupFiles": [
 -   "<rootDir>/config/test/polyfills.js"
 +   "<rootDir>/config/test/polyfills.js",
 +   "<rootDir>/config/test/setupTest.js"
-  ],
-  "transform": {
-    ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-  },
-- "restoreMocks": true
-+ "restoreMocks": true,
+- ]
++ ],
 + "snapshotSerializers": [
 +   "enzyme-to-json/serializer"
 + ]
