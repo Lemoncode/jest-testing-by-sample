@@ -46,31 +46,21 @@ As we know, VS Code provides by default a [node debugger](https://code.visualstu
       "args": [
         "-c",
         "./config/test/jest.json",
-        "--verbose"
-      ],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Jest watchAll run",
-      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
-      "args": [
-        "-c",
-        "./config/test/jest.json",
-        "--watchAll",
         "--verbose",
-        "-i"
+        "-i",
+        "--no-cache"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"
     }
   ]
 }
+
 ```
 
 - Now we could run specs in debugging mode.
+
+ ![Debugging in VS Code](../99%20Readme%20Resources/03%20Debugging%20Jest/02%20debugging_in_vscode.gif)
 
 # About Lemoncode
 
