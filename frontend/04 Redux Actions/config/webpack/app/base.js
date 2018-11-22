@@ -2,17 +2,15 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require('../common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const helpers = require('../../helpers');
 
 module.exports = merge(common, {
   context: helpers.resolveFromRootPath('src'),
   entry: {
-    app: [
-      './index.tsx',
-    ],
+    app: ['./index.tsx'],
     vendor: [
-      'babel-polyfill',
+      '@babel/polyfill',
+      'history',
       'lc-form-validation',
       'react',
       'react-dom',
@@ -23,11 +21,7 @@ module.exports = merge(common, {
       'redux-thunk',
       'whatwg-fetch',
     ],
-    appStyles: [
-    ],
-    vendorStyles: [
-      '../node_modules/bootstrap/dist/css/bootstrap.css'
-    ],
+    vendorStyles: ['../node_modules/bootstrap/dist/css/bootstrap.css'],
   },
 
   module: {
@@ -39,54 +33,31 @@ module.exports = merge(common, {
         options: {
           useBabel: true,
           useCache: true,
+          babelCore: '@babel/core',
         },
-      },
-      {
-        test: /\.css$/,
-        include: /node_modules/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: {
-            loader: 'css-loader',
-          },
-        }),
-      },
-      {
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                camelCase: true,
-                localIdentName: '[name]__[local]___[hash:base64:5]',
-              },
-            },
-            { loader: 'sass-loader' },
-          ],
-        }),
       },
     ],
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          test: 'vendor',
+          enforce: true,
+        },
+      },
+    },
+  },
+
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
-    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
       hash: true,
-      chunksSortMode: 'manual',
-      chunks: ['manifest', 'vendor', 'vendorStyles', 'appStyles', 'app'],
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      },
-    }),
+    new webpack.EnvironmentPlugin(['NODE_ENV']),
   ],
 });
