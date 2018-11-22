@@ -9,22 +9,9 @@
       "args": [
         "-c",
         "./config/test/jest.json",
-        "--verbose"
-      ],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Jest watchAll run",
-      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
-      "args": [
-        "-c",
-        "./config/test/jest.json",
-        "--watchAll",
         "--verbose",
-        "-i"
+        "-i",
+        "--no-cache"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"

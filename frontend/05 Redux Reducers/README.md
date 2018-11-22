@@ -151,7 +151,7 @@ describe('login/reducers/loginReducer tests', () => {
 ### ./src/pages/login/reducers/login.spec.ts
 ```diff
 import { FieldValidationResult } from 'lc-form-validation';
-+ import * as deepFreeze from 'deep-freeze';
++ import deepFreeze from 'deep-freeze';
 - import { loginReducer } from './login';
 + import { loginReducer, LoginState } from './login';
 
@@ -187,7 +187,7 @@ import { FieldValidationResult } from 'lc-form-validation';
 ### ./src/pages/login/reducers/login.spec.ts
 ```diff
 import { FieldValidationResult } from 'lc-form-validation';
-import * as deepFreeze from 'deep-freeze';
+import deepFreeze from 'deep-freeze';
 + import { actionIds } from '../actions/actionIds';
 import { loginReducer, LoginState } from './login';
 
@@ -286,7 +286,7 @@ import { loginReducer, LoginState } from './login';
 ### ./src/pages/login/reducers/login.spec.ts
 ```diff
 import { FieldValidationResult } from 'lc-form-validation';
-import * as deepFreeze from 'deep-freeze';
+import deepFreeze from 'deep-freeze';
 import { actionIds } from '../actions/actionIds';
 + import { LoginFormErrors } from '../viewModel';
 import { loginReducer, LoginState } from './login';
@@ -412,7 +412,7 @@ describe('members/list/reducers/membersReducer tests', () => {
 
 ### ./src/pages/members/list/reducers/members.spec.ts
 ```diff
-+ import * as deepFreeze from 'deep-freeze';
++ import deepFreeze from 'deep-freeze';
 import { membersReducer, MembersState } from './members';
 ...
 + it('should return same state without mutate it when passing state and some action type', () => {
@@ -437,7 +437,7 @@ import { membersReducer, MembersState } from './members';
 
 ### ./src/pages/members/list/reducers/members.spec.ts
 ```diff
-import * as deepFreeze from 'deep-freeze';
+import deepFreeze from 'deep-freeze';
 + import { actionIds } from '../actions/actionIds';
 import { membersReducer, MembersState } from './members';
 ...

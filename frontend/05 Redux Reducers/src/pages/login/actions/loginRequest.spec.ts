@@ -41,19 +41,14 @@ describe('login/actions/loginRequest tests', () => {
     };
 
     const validateFormStub = jest.spyOn(validations, 'validateForm')
-      .mockImplementation(() => ({
-        then: function(callback) {
-          callback({ succeeded: true });
-          return this;
-        },
-      }));
+      .mockResolvedValue({ succeeded: true });
 
     const loginEntityModel = {
       login: 'test login model',
       password: 'test password model',
     };
     const mapLoginEntityVMToModelStub = jest.spyOn(mappers, 'mapLoginEntityVMToModel')
-      .mockImplementation(() => loginEntityModel);
+      .mockReturnValue(loginEntityModel);
 
     const loginStub = jest.spyOn(apiLogin, 'login');
 
@@ -76,30 +71,17 @@ describe('login/actions/loginRequest tests', () => {
     };
 
     const validateFormStub = jest.spyOn(validations, 'validateForm')
-      .mockImplementation(() => ({
-        then: function(callback) {
-          callback({ succeeded: true });
-          return this;
-        },
-      }));
+      .mockResolvedValue({ succeeded: true });
 
     const loginEntityModel = {
       login: 'test login model',
       password: 'test password model',
     };
     const mapLoginEntityVMToModelStub = jest.spyOn(mappers, 'mapLoginEntityVMToModel')
-      .mockImplementation(() => loginEntityModel);
+      .mockReturnValue(loginEntityModel);
 
     const loginStub = jest.spyOn(apiLogin, 'login')
-      .mockImplementation(() => ({
-        then: function(callback) {
-          callback();
-          return this;
-        },
-        catch: function(callback) {
-          return this;
-        },
-      }));
+      .mockResolvedValue({});
 
     const historyPushStub = jest.spyOn(history, 'push');
     const logStub = jest.spyOn(window.console, 'log');
@@ -115,7 +97,7 @@ describe('login/actions/loginRequest tests', () => {
       });
   });
 
-  it('should call to console.log when is failed login', (done) => {
+  it('should call to console.log when is failed login', async () => {
     // Arrange
     const loginEntity: LoginEntity = {
       login: 'test login',
@@ -123,47 +105,32 @@ describe('login/actions/loginRequest tests', () => {
     };
 
     const validateFormStub = jest.spyOn(validations, 'validateForm')
-      .mockImplementation(() => ({
-        then: function(callback) {
-          callback({ succeeded: true });
-          return this;
-        },
-      }));
+      .mockResolvedValue({ succeeded: true });
 
     const loginEntityModel = {
       login: 'test login model',
       password: 'test password model',
     };
     const mapLoginEntityVMToModelStub = jest.spyOn(mappers, 'mapLoginEntityVMToModel')
-      .mockImplementation(() => loginEntityModel);
+      .mockReturnValue(loginEntityModel);
 
     const loginStub = jest.spyOn(apiLogin, 'login')
-      .mockImplementation(() => ({
-        then: function(callback) {
-          return this;
-        },
-        catch: function(callback) {
-          callback('test error');
-          return this;
-        },
-      }));
+      .mockRejectedValue('test error');
 
     const historyPushStub = jest.spyOn(history, 'push');
     const logStub = jest.spyOn(window.console, 'log');
 
     // Act
     const store = getMockStore();
-    store.dispatch<any>(loginRequest(loginEntity))
-      .then(() => {
-        // Assert
-        expect(historyPushStub).not.toHaveBeenCalled();
-        expect(logStub).toHaveBeenCalledWith('test error');
-        done();
-      });
+    await store.dispatch<any>(loginRequest(loginEntity));
+
+    // Assert
+    expect(historyPushStub).not.toHaveBeenCalled();
+    expect(logStub).toHaveBeenCalledWith('test error');
   });
 
   it(`should dispatch action with type UPDATE_LOGIN_FORM_ERRORS and payload with loginFormErrors
-  when formValidationResult.succeeded equals false and has fieldErrors`, (done) => {
+when formValidationResult.succeeded equals false and has fieldErrors`, (done) => {
       // Arrange
       const loginEntity: LoginEntity = {
         login: 'test login',
@@ -176,18 +143,13 @@ describe('login/actions/loginRequest tests', () => {
       passwordValidationResult.key = 'password';
 
       const validateFormStub = jest.spyOn(validations, 'validateForm')
-        .mockImplementation(() => ({
-          then: function(callback) {
-            callback({
-              succeeded: false,
-              fieldErrors: [
-                loginValidationResult,
-                passwordValidationResult,
-              ],
-            });
-            return this;
+        .mockResolvedValue({
+          succeeded: false,
+          fieldErrors: {
+            login: loginValidationResult,
+            password: passwordValidationResult,
           },
-        }));
+        });
 
       // Act
       const store = getMockStore();

@@ -25,14 +25,7 @@ const doLogin = (loginEntity: LoginEntity) => {
     .catch(console.log);
 };
 
-const updateLoginFormErrors = (fieldErrors: FieldValidationResult[]) => {
-  const loginFormErrors = fieldErrors.reduce((errors, fieldValidationResult) => ({
-    ...errors,
-    [fieldValidationResult.key]: fieldValidationResult,
-  }), createEmptyLoginFormErrors());
-
-  return {
-    type: actionIds.UPDATE_LOGIN_FORM_ERRORS,
-    payload: loginFormErrors,
-  };
-};
+const updateLoginFormErrors = (fieldErrors: { [key: string]: FieldValidationResult }) => ({
+  type: actionIds.UPDATE_LOGIN_FORM_ERRORS,
+  payload: fieldErrors,
+});

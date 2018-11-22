@@ -35,5 +35,5 @@ class PageContainer extends React.PureComponent<Props, {}> {
 
 export const MemberListPageContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(PageContainer);
