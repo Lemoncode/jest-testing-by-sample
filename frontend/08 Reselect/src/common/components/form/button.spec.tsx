@@ -7,7 +7,7 @@ describe('common/components/form/button specs', () => {
     // Arrange
     const props = {
       label: 'test label',
-      onClick: () => {},
+      onClick: () => { },
     };
 
     // Act
@@ -25,7 +25,7 @@ describe('common/components/form/button specs', () => {
     // Arrange
     const props = {
       label: 'test label',
-      onClick: () => {},
+      onClick: () => { },
       type: 'test type',
     };
 

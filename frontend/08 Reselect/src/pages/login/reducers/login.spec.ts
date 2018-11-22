@@ -1,5 +1,5 @@
 import { FieldValidationResult } from 'lc-form-validation';
-import * as deepFreeze from 'deep-freeze';
+import deepFreeze from 'deep-freeze';
 import { actionIds } from '../actions/actionIds';
 import { LoginFormErrors } from '../viewModel';
 import { loginReducer, LoginState } from './login';
@@ -46,7 +46,7 @@ describe('login/reducers/loginReducer tests', () => {
   });
 
   it(`should return updated state without mutate it
-  when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and login field payload`, () => {
+when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and login field payload`, () => {
       // Arrange
       const state: LoginState = {
         loginEntity: {
@@ -87,7 +87,7 @@ describe('login/reducers/loginReducer tests', () => {
     });
 
   it(`should return updated state without mutate it
-  when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and password field payload`, () => {
+when passing state, UPDATE_LOGIN_ENTITY_FIELD action type and password field payload`, () => {
       // Arrange
       const state: LoginState = {
         loginEntity: {
@@ -128,7 +128,7 @@ describe('login/reducers/loginReducer tests', () => {
     });
 
   it(`should return updated state without mutate it
-  when passing state, UPDATE_LOGIN_FORM_ERRORS action type and loginFormErrors payload`, () => {
+when passing state, UPDATE_LOGIN_FORM_ERRORS action type and loginFormErrors payload`, () => {
       // Arrange
       const state: LoginState = {
         loginEntity: {

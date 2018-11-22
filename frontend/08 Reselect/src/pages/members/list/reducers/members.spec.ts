@@ -1,4 +1,4 @@
-import * as deepFreeze from 'deep-freeze';
+import deepFreeze from 'deep-freeze';
 import { actionIds } from '../actions/actionIds';
 import { membersReducer, MembersState } from './members';
 
@@ -33,7 +33,7 @@ describe('members/list/reducers/membersReducer tests', () => {
   });
 
   it(`should return updated state without mutate it
-  when passing state, actionIds.UPDATE_MEMBERS action type and members payload`, () => {
+when passing state, actionIds.UPDATE_MEMBERS action type and members payload`, () => {
       // Arrange
       const state: MembersState = [
         { id: 1, login: 'test login', avatar_url: 'test avatar_url' },

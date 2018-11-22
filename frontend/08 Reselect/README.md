@@ -30,14 +30,7 @@ TypeScript definitions are included inside `reselect` so we don't need to instal
 ```diff
 ...
     vendor: [
-      'babel-polyfill',
-      'lc-form-validation',
-      'react',
-      'react-dom',
-      'react-hot-loader',
-      'react-redux',
-      'react-router',
-      'redux',
+      ...
       'redux-thunk',
 +     'reselect',
       'whatwg-fetch',
@@ -82,7 +75,7 @@ Next we'll create the memoized selector using `createSelector` method from `rese
 
 Let's change the member's list container to implement this `getMembersVM` selector:
 
-#### `src/pages/members/list/selectors.ts`
+#### `src/pages/members/list/pageContainer.tsx`
 
 ```diff
   ...
@@ -115,6 +108,8 @@ describe('pages/members/list/selectors specs', () => {
 
 Let's add tests for `getMembers` selector:
 
+#### `src/pages/members/list/selectors.spec.ts`
+
 ```diff
   describe('pages/members/list/selectors specs', () => {
 +   describe('getMembers', () => {
@@ -129,10 +124,10 @@ Let's add tests for `getMembers` selector:
 +           },
 +         ],
 +       } as State;
-+
+
 +       // Act
 +       const result = getMembers(state);
-+
+
 +       // Assert
 +       expect(result).toEqual(state.members);
 +     });
@@ -142,8 +137,14 @@ Let's add tests for `getMembers` selector:
 
 Only a test is enough since `state` will be provided by `connect` from Redux. Let's implement a test for our memoized selector:
 
+#### `src/pages/members/list/selectors.spec.ts`
+
 ```diff
-    });
+import { getMembers, getMembersVM } from './selectors';
+import { State } from '../../reducers';
++ import * as mappers from './mappers';
++ import * as vm from './viewModel';
+...
 +   describe('getMembersVM', () => {
 +     it('should return the expected mapped member list', () => {
 +       // Arrange
@@ -183,13 +184,13 @@ Only a test is enough since `state` will be provided by `connect` from Redux. Le
 +           avatarUrl: 'avatar member 3',
 +         },
 +       ];
-+
+
 +       const mapMemberListModelToVMStub = jest.spyOn(mappers, 'mapMemberListModelToVM')
 +         .mockReturnValue(expectedMappedMemberList);
-+
+
 +       // Act
 +       const result = getMembersVM(state);
-+
+
 +       // Assert
 +       expect(mapMemberListModelToVMStub).toHaveBeenCalledWith(state.members);
 +       expect(result).toEqual(expectedMappedMemberList);

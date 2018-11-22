@@ -12,7 +12,7 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateField: (loginEntity: LoginEntity) => (fieldName: string, value: any) => dispatch(
-    updateLoginEntityField(loginEntity, fieldName, value),
+    updateLoginEntityField(loginEntity, fieldName, value)
   ),
   doLogin: (loginEntity: LoginEntity) => () => dispatch(loginRequest(loginEntity)),
 });
@@ -27,5 +27,5 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 export const LoginPageContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
+  mergeProps
 )(LoginPage);
