@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../reducers';
-import { mapMemberListModelToVM } from './mappers';
 import { fetchMembers } from './actions/fetchMembers';
 import { Member } from './viewModel';
 import { MemberListPage } from './page';
@@ -36,5 +35,5 @@ class PageContainer extends React.PureComponent<Props, {}> {
 
 export const MemberListPageContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(PageContainer);
