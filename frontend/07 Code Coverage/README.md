@@ -62,12 +62,7 @@ We'll add some extra configuration to our coverage reports. In order to do that 
 #### `config/test/jest.coverage.json`
 
 ```diff
-      ".tsx?": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "restoreMocks": true,
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
+...
     "moduleNameMapper": {
       "^.+\\.s?css$": "identity-obj-proxy"
 -   }
@@ -124,7 +119,8 @@ Let's keep `"html"` and `"text"` as our main reporters. The former will be usefu
 ...
   "collectCoverage": true,
   "coverageReporters": [
-    "text",
+-   "text"
++   "text",
 +   "html"
   ]
 ```
@@ -136,7 +132,7 @@ We'll notice that in our tests `polyfills.js` and `setupTest.js` are coverage-re
 ```diff
   "collectCoverage": true,
   "coverageReporters": [
-    "text"
+    "text",
     "html"
 - ]
 + ],
