@@ -34,6 +34,16 @@ Each sample contains a _Readme.md_ that contains the step by step guide to repro
 
 Examples description:
 
+- **00 Boilerplate:** Initial application.
+- **01 Add config:** Setting up Jest from scratch.
+- **02 Plain Vanilla**: Testing plain vanilla javascript code with Jest.
+- **03 Debugging Jest**: How to debug jest test using Visual Studio Code.
+- **04 Redux Actions**: How to test actions, plus thunk based actions using Jest.
+- **05 Redux Reducers**: How to test reducers.
+- **06 Components**: How to test components using jests.
+- **07 Code Coverage**: How to enable code coverage reports on our tests run.
+- **08 Reselect**: How to test a _reselect_ selector_.
+- **09 Travis CI**: How to integrate our tests with a CI provider like Travis.
 
 
 # About Lemoncode
