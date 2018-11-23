@@ -1,6 +1,6 @@
 # Jest testing by sample
 
-Learn testing with jest by sample, each of the samples contains a readme.md file that indicates the purpose of the sample plus an step by step guide to reproduce it.
+Learn testing with jest + typescript by example, each of the examples contains a readme.md file that indicates the purpose of the sample plus an step by step guide to reproduce it.
 
 Example projects are located under the _frontend_ folder, each sample covers a testing topic and includes and step by step guide.
 
