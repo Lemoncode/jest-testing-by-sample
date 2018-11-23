@@ -2,7 +2,39 @@
 
 Learn testing with jest by sample, each of the samples contains a readme.md file that indicates the purpose of the sample plus an step by step guide to reproduce it.
 
-The Lemoncode Frontend Master Students are working on a review process, if you want to cooperate in this process or add more useful samples don't hesitate to contact us, fork the project and asking for PR once ready.
+Example projects are located under the _frontend_ folder, each sample covers a testing topic and includes and step by step guide.
+
+How to run the sample projects:
+
+Jump into _frontend_ folder:
+
+```bash
+cd frontend
+```
+
+Then jump into one of the examples folder you want to run, e.g. _02 PlainVanilla_ 
+
+```bash
+cd "02 PlainVanilla"
+```
+
+Now you can execute the tests by launching:
+
+```bash
+npm test
+```
+
+You can start the project by executing:
+
+```bash
+npm start
+```
+
+Each sample contains a _Readme.md_ that contains the step by step guide to reproduce the sample.
+
+Examples description:
+
+
 
 # About Lemoncode
 
