@@ -13,7 +13,7 @@ describe('common/components/panel/header tests', () => {
     const component = shallow(
       <Header
         {...props}
-      />,
+      />
     );
 
     // Assert

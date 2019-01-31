@@ -29,7 +29,7 @@ describe('pages/members/list/pageContainer tests', () => {
       />,
       {
         context: { store },
-      },
+      }
     );
 
     // Assert
@@ -61,7 +61,7 @@ describe('pages/members/list/pageContainer tests', () => {
       />,
       {
         context: { store },
-      },
+      }
     );
 
     // Assert
@@ -93,7 +93,7 @@ describe('pages/members/list/pageContainer tests', () => {
       />,
       {
         context: { store },
-      },
+      }
     );
 
     // Assert

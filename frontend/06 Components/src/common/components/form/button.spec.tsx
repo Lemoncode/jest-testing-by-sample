@@ -14,7 +14,7 @@ describe('common/components/form/button specs', () => {
     const component = shallow(
       <Button
         {...props}
-      />,
+      />
     );
 
     // Assert
@@ -33,7 +33,7 @@ describe('common/components/form/button specs', () => {
     const component = shallow(
       <Button
         {...props}
-      />,
+      />
     );
 
     // Assert
@@ -52,7 +52,7 @@ describe('common/components/form/button specs', () => {
     const component = shallow(
       <Button
         {...props}
-      />,
+      />
     );
 
     const preventDefaultSpy = jest.fn();

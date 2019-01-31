@@ -42,13 +42,13 @@ enzyme.configure({ adapter: new Adapter() });
 {
   "rootDir": "../../",
   "preset": "ts-jest",
-  "restoreMocks": true,
   "setupFiles": [
 -   "<rootDir>/config/test/polyfills.js"
 +   "<rootDir>/config/test/polyfills.js",
 +   "<rootDir>/config/test/setupTest.js"
-- ]
-+ ],
+  ],
+  "restoreMocks": true
++ "restoreMocks": true,
 + "snapshotSerializers": [
 +   "enzyme-to-json/serializer"
 + ]
@@ -92,7 +92,7 @@ describe('common/components/panel/header tests', () => {
 +   const component = shallow(
 +     <Header
 +       {...props}
-+     />,
++     />
 +   );
 
     // Assert
@@ -157,7 +157,7 @@ describe('common/components/panel/body tests', () => {
 +   const component = shallow(
 +     <Body>
 +       <h1>Test children component</h1>
-+     </Body>,
++     </Body>
 +   );
 
     // Assert
@@ -204,7 +204,7 @@ describe('commom/components/panel tests', () => {
 +   const component = shallow(
 +     <Panel {...props}>
 +       <h1>Test children component</h1>
-+     </Panel>,
++     </Panel>
 +   );
 
     // Assert
@@ -254,7 +254,7 @@ describe('common/components/form/input specs', () => {
 +   const component = shallow(
 +     <Input
 +       {...props}
-+     />,
++     />
 +   );
 
     // Assert
@@ -284,7 +284,7 @@ describe('common/components/form/input specs', () => {
 +   const component = shallow(
 +     <Input
 +       {...props}
-+     />,
++     />
 +   );
 
 +   // Assert
@@ -313,7 +313,7 @@ describe('common/components/form/input specs', () => {
 +   const component = shallow(
 +     <Input
 +       {...props}
-+     />,
++     />
 +   );
 
 +   component.find('input').simulate('change', {
@@ -349,7 +349,7 @@ describe('common/components/form/input specs', () => {
 +   const component = shallow(
 +     <Input
 +       {...props}
-+     />,
++     />
 +   );
 
 +   component.find('input').simulate('blur');
@@ -398,7 +398,7 @@ describe('common/components/form/button specs', () => {
 +   const component = shallow(
 +     <Button
 +       {...props}
-+     />,
++     />
 +   );
 
     // Assert
@@ -424,7 +424,7 @@ describe('common/components/form/button specs', () => {
 +   const component = shallow(
 +     <Button
 +       {...props}
-+     />,
++     />
 +   );
 
 +   // Assert
@@ -449,7 +449,7 @@ describe('common/components/form/button specs', () => {
 +   const component = shallow(
 +     <Button
 +       {...props}
-+     />,
++     />
 +   );
 
 +   const preventDefaultSpy = jest.fn();
@@ -497,7 +497,7 @@ describe('pages/login/pageContainer tests', () => {
     // Act
 +   const component = shallow(
 +     <LoginPageContainer
-+     />,
++     />
 +   );
 
     // Assert
@@ -537,10 +537,11 @@ describe('pages/login/pageContainer tests', () => {
     // Act
     const component = shallow(
       <LoginPageContainer
-      />,
+-     />
++     />,
 +     {
 +       context: { store },
-+     },
++     }
     );
 
     // Assert
@@ -584,7 +585,7 @@ import { LoginPageContainer } from './pageContainer';
 +     />,
 +     {
 +       context: { store },
-+     },
++     }
 +   );
 
 +   component.prop('updateField')('test fieldName', 'test value');
@@ -630,7 +631,7 @@ import { LoginPageContainer } from './pageContainer';
 +     />,
 +     {
 +       context: { store },
-+     },
++     }
 +   );
 
 +   component.prop('doLogin')();
@@ -692,7 +693,7 @@ describe('pages/members/list/pageContainer tests', () => {
 +     />,
 +     {
 +       context: { store },
-+     },
++     }
 +   );
 
     // Assert
@@ -739,7 +740,7 @@ import { MemberListPageContainer } from './pageContainer';
 +     />,
 +     {
 +       context: { store },
-+     },
++     }
 +   );
 
 +   // Assert
@@ -787,7 +788,7 @@ import { MemberListPageContainer } from './pageContainer';
 +     />,
 +     {
 +       context: { store },
-+     },
++     }
 +   );
 
 +   // Assert
@@ -856,9 +857,7 @@ npm test
 npm run test:watch
 ```
 
-- We need to press `u` jest option. This option only works if we have app code in a repository (for jest@22). If not, we have to remove `__snapshots__` folder and run again.
-
-> It's fixed for jest@23
+- We need to press `u` jest option.
 
 # About Lemoncode
 
