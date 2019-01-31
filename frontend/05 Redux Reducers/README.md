@@ -649,7 +649,7 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateField: (loginEntity: LoginEntity, fieldName: string, value: any) => dispatch(
-    updateLoginEntityField(loginEntity, fieldName, value),
+    updateLoginEntityField(loginEntity, fieldName, value)
   ),
   doLogin: (loginEntity: LoginEntity) => dispatch(loginRequest(loginEntity)),
 });
@@ -668,13 +668,13 @@ const mapDispatchToProps = (dispatch) => ({
 - }
 + export const LoginPageContainer = connect(
 +   mapStateToProps,
-+   mapDispatchToProps,
++   mapDispatchToProps
 + )(LoginPage);
 ```
 
 - We could avoid to change our presentational components:
 
-> Resource: [`mergeProps`](https://github.com/reduxjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
+> Resource: [`mergeProps`](https://github.com/reduxjs/react-redux/blob/master/docs/api/connect.md#mergeprops-stateprops-dispatchprops-ownprops--object)
 
 ### ./src/pages/login/pageContainer.tsx
 ```diff
@@ -709,7 +709,7 @@ const mapDispatchToProps = (dispatch) => ({
 export const LoginPageContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-+ mergeProps,
++ mergeProps
 )(LoginPage);
 
 ```
@@ -844,7 +844,7 @@ class PageContainer extends React.PureComponent<Props, {}> {
 
 + export const MemberListPageContainer = connect(
 +   mapStateToProps,
-+   mapDispatchToProps,
++   mapDispatchToProps
 + )(PageContainer);
 ```
 
