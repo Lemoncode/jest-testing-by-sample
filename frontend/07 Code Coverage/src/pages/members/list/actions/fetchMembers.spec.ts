@@ -25,7 +25,7 @@ describe('members/list/actions/fetchMembers tests', () => {
   });
 
   it(`should dispatch action with type UPDATE_MEMBERS and payload with members
-when it fetch members successfully`, (done) => {
+  when it fetch members successfully`, (done) => {
       // Arrange
       const members: Member[] = [
         {

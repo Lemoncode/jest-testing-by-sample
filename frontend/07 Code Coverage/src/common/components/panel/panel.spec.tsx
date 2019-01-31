@@ -13,7 +13,7 @@ describe('commom/components/panel tests', () => {
     const component = shallow(
       <Panel {...props}>
         <h1>Test children component</h1>
-      </Panel>,
+      </Panel>
     );
 
     // Assert

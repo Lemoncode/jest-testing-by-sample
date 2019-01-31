@@ -16,7 +16,7 @@ describe('common/components/form/input specs', () => {
     const component = shallow(
       <Input
         {...props}
-      />,
+      />
     );
 
     // Assert
@@ -39,7 +39,7 @@ describe('common/components/form/input specs', () => {
     const component = shallow(
       <Input
         {...props}
-      />,
+      />
     );
 
     // Assert
@@ -62,7 +62,7 @@ describe('common/components/form/input specs', () => {
     const component = shallow(
       <Input
         {...props}
-      />,
+      />
     );
 
     component.find('input').simulate('change', {
@@ -92,7 +92,7 @@ describe('common/components/form/input specs', () => {
     const component = shallow(
       <Input
         {...props}
-      />,
+      />
     );
 
     component.find('input').simulate('blur');
