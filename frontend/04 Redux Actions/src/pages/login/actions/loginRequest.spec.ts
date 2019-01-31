@@ -7,8 +7,8 @@ import * as mappers from '../mappers';
 import * as apiLogin from '../../../rest-api/api/login';
 import { history } from '../../../history';
 import { routes } from '../../../common/constants/routes';
-import { actionIds } from './actionIds';
 import { loginRequest } from './loginRequest';
+import { actionIds } from './actionIds';
 
 const middlewares = [reduxThunk];
 const getMockStore = configureStore(middlewares);
@@ -27,6 +27,7 @@ describe('login/actions/loginRequest tests', () => {
     const store = getMockStore();
     store.dispatch<any>(loginRequest(loginEntity))
       .then(() => {
+
         // Assert
         expect(validateFormStub).toHaveBeenCalledWith(loginEntity);
         done();
@@ -130,7 +131,7 @@ describe('login/actions/loginRequest tests', () => {
   });
 
   it(`should dispatch action with type UPDATE_LOGIN_FORM_ERRORS and payload with loginFormErrors
-when formValidationResult.succeeded equals false and has fieldErrors`, (done) => {
+  when formValidationResult.succeeded equals false and has fieldErrors`, (done) => {
       // Arrange
       const loginEntity: LoginEntity = {
         login: 'test login',

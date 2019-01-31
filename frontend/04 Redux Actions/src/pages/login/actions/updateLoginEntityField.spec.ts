@@ -12,7 +12,7 @@ const getMockStore = configureStore(middlewares);
 describe('login/actions/updateLoginEntityField tests', () => {
   describe('updateLoginEntityFieldCompleted', () => {
     it(`should return action with type UPDATE_LOGIN_ENTITY_FIELD and payload with values
-   when passing fieldName, value and fieldValidationResult`, () => {
+    when passing fieldName, value and fieldValidationResult`, () => {
         // Arrange
         const fieldName = 'test fieldName';
         const value = 'test value';
@@ -55,7 +55,7 @@ describe('login/actions/updateLoginEntityField tests', () => {
     });
 
     it(`should dispatch action with type UPDATE_LOGIN_ENTITY_FIELD and
-  payload with fieldName, value and fieldValidationResult`, (done) => {
+   payload with fieldName, value and fieldValidationResult`, (done) => {
         // Arrange
         const loginEntity: LoginEntity = {
           login: 'test login',
@@ -80,7 +80,7 @@ describe('login/actions/updateLoginEntityField tests', () => {
             expect(expectedAction.payload.fieldName).toEqual(fieldName);
             expect(expectedAction.payload.value).toEqual(value);
             expect(expectedAction.payload.fieldValidationResult.succeeded).toBeTruthy();
-            expect(validateFieldStub).toHaveBeenCalledWith(loginEntity, fieldName, value)
+            expect(validateFieldStub).toHaveBeenCalledWith(loginEntity, fieldName, value);
             done();
           });
       });

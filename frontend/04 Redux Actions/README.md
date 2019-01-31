@@ -304,7 +304,7 @@ import { LoginEntity } from '../viewModel';
 +         expect(expectedAction.payload.fieldName).toEqual(fieldName);
 +         expect(expectedAction.payload.value).toEqual(value);
 +         expect(expectedAction.payload.fieldValidationResult.succeeded).toBeTruthy();
-+         expect(validateFieldStub).toHaveBeenCalledWith(loginEntity, fieldName, value)
++         expect(validateFieldStub).toHaveBeenCalledWith(loginEntity, fieldName, value);
 +         done();
 +       });
 +   });
