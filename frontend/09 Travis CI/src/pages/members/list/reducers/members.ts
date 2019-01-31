@@ -8,6 +8,7 @@ export const membersReducer = (state = [], action): MembersState => {
     case actionIds.UPDATE_MEMBERS:
       return handleUpdateMembers(state, action.payload);
   }
+
   return state;
 };
 

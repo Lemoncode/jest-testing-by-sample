@@ -69,7 +69,7 @@ Next we'll create the memoized selector using `createSelector` method from `rese
 
 + export const getMembersVM = createSelector(
 +   getMembers,
-+   (members) => mapMemberListModelToVM(members),
++   (members) => mapMemberListModelToVM(members)
 + );
 ```
 

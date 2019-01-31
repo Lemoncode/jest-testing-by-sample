@@ -27,7 +27,7 @@ describe('pages/login/pageContainer tests', () => {
       />,
       {
         context: { store },
-      },
+      }
     );
 
     // Assert
@@ -55,7 +55,7 @@ describe('pages/login/pageContainer tests', () => {
       />,
       {
         context: { store },
-      },
+      }
     );
 
     component.prop('updateField')('test fieldName', 'test value');
@@ -85,7 +85,7 @@ describe('pages/login/pageContainer tests', () => {
       />,
       {
         context: { store },
-      },
+      }
     );
 
     component.prop('doLogin')();

@@ -8,5 +8,5 @@ export const getMembers = (state: State): model.Member[] => state.members;
 
 export const getMembersVM = createSelector(
   getMembers,
-  (members) => mapMemberListModelToVM(members),
+  (members) => mapMemberListModelToVM(members)
 );
