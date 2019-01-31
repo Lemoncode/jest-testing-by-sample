@@ -3,8 +3,8 @@ import * as vm from './viewModel';
 
 export const mapLoginEntityVMToModel = (loginEntity: vm.LoginEntity): model.LoginEntity => (
   Boolean(loginEntity) ?
-    {
-      ...loginEntity,
-    } :
-    null
+  {
+    ...loginEntity,
+  } :
+  null
 );
