@@ -62,6 +62,39 @@ As we know, VS Code provides by default a [node debugger](https://code.visualstu
 
  ![Debugging in VS Code](../99%20Readme%20Resources/03%20Debugging%20Jest/02%20debugging_in_vscode.gif)
 
+- We can add the `watch` mode configuration too. It's like previous configuration but adding the `--watchAll` flag:
+
+### ./.vscode/launch.json
+
+```diff
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      ...
+-   }
++   },
++   {
++     "type": "node",
++     "request": "launch",
++     "name": "Jest watch run",
++     "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
++     "args": [
++       "-c",
++       "./config/test/jest.json",
++       "--verbose",
++       "-i",
++       "--no-cache",
++       "--watchAll"
++     ],
++     "console": "integratedTerminal",
++     "internalConsoleOptions": "neverOpen"
++   }
+  ]
+}
+
+```
+
 # About Lemoncode
 
 We are a team of long-term experienced freelance developers, established as a group in 2010.
