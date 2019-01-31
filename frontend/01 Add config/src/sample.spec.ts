@@ -14,6 +14,6 @@ describe('Sample tests', () => {
     // Act
 
     // Assert
-    expect(false).toBeTruthy();
+    expect(true).toBeFalsy();
   });
 });

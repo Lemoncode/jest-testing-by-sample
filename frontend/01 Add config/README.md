@@ -67,13 +67,7 @@ npm install enzyme @types/enzyme enzyme-to-json enzyme-adapter-react-16 -D
 - [identity-obj-proxy](https://github.com/keyanzhang/identity-obj-proxy): For testing components using CSS Modules.
 
 ```bash
-npm install deep-freeze @types/deep-freeze @types/redux-mock-store identity-obj-proxy -D
-```
-
-- [redux-mock-store](https://github.com/dmitry-zaets/redux-mock-store): A mock store for testing Redux async action creators and middleware.
-
-```bash
-npm install redux-mock-store -D
+npm install deep-freeze @types/deep-freeze redux-mock-store @types/redux-mock-store identity-obj-proxy -D
 ```
 
 ## Configuration
@@ -147,27 +141,6 @@ require('raf/polyfill');
 
 > [Jest configuration options](https://facebook.github.io/jest/docs/en/configuration.html#options)
 
-- If we run tests with this config, we will see a warning:
-
-```
-ts-jest[config] (WARN) TypeScript diagnostics (customize using `[jest-config].globals.ts-jest.diagnostics` option):message TS151001: If you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`). See https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability for more information.
-```
-
-- So, we have to add this field to `tsconfig` file:
-
-### ./tsconfig.json
-
-```diff
-{
-  ...
-  "allowJs": true,
-  "suppressImplicitAnyIndexErrors": true,
-- "skipLibCheck": true
-+ "skipLibCheck": true,
-+ "esModuleInterop": true
-}
-```
-
 - Finally we are going to automatically restore mock state between every test:
 
 ### ./package.json
@@ -231,7 +204,7 @@ describe('Sample tests', () => {
 +   // Act
 
 +   // Assert
-+   expect(false).toBeTruthy();
++   expect(true).toBeFalsy();
 + });
 });
 ```
@@ -305,6 +278,30 @@ One step over, we could be moved jest config outside `package.json` to improve m
 
 ```bash
 npm run test:watch
+```
+
+
+- If we run tests with this config, we will see a warning:
+
+```
+ts-jest[config] (WARN) TypeScript diagnostics (customize using `[jest-config].globals.ts-jest.diagnostics` option):message TS151001: If you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`). 
+```
+
+See [TypeScript esModuleInterop](https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability) and [tsconfig options](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information
+
+- So, we have to add this field to `tsconfig` file:
+
+### ./tsconfig.json
+
+```diff
+{
+  ...
+  "allowJs": true,
+  "suppressImplicitAnyIndexErrors": true,
+- "skipLibCheck": true
++ "skipLibCheck": true,
++ "esModuleInterop": true
+}
 ```
 
 # About Lemoncode
