@@ -45,9 +45,9 @@ describe('pages/login/pageContainer tests', () => {
 
     const store = getMockStore(state);
     const actionCreatorStub = jest.spyOn(updateFieldActions, 'updateLoginEntityField')
-      .mockImplementation(() => ({
+      .mockReturnValue(({
         type: 'test action type',
-      }));
+      }) as any);
 
     // Act
     const component = shallow(
@@ -74,10 +74,10 @@ describe('pages/login/pageContainer tests', () => {
     } as State;
 
     const store = getMockStore(state);
-    const actionCreatorStub = jest.spyOn(loginRequestActions, 'loginRequest')
-      .mockImplementation(() => ({
+    const actionCreatorStub: any = jest.spyOn(loginRequestActions, 'loginRequest')
+      .mockReturnValue(({
         type: 'test action type',
-      }));
+      }) as any);
 
     // Act
     const component = shallow(

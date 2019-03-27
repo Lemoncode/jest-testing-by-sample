@@ -26,13 +26,13 @@ describe('common/components/form/button specs', () => {
     const props = {
       label: 'test label',
       onClick: () => { },
-      type: 'test type',
     };
 
     // Act
     const component = shallow(
       <Button
         {...props}
+        type="button"
       />
     );
 
@@ -45,13 +45,13 @@ describe('common/components/form/button specs', () => {
     const props = {
       label: 'test label',
       onClick: jest.fn(),
-      type: 'test type',
     };
 
     // Act
     const component = shallow(
       <Button
         {...props}
+        type="button"
       />
     );
 

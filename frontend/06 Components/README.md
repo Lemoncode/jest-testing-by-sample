@@ -417,13 +417,13 @@ describe('common/components/form/button specs', () => {
 +   const props = {
 +     label: 'test label',
 +     onClick: () => {},
-+     type: 'test type',
 +   };
 
 +   // Act
 +   const component = shallow(
 +     <Button
 +       {...props}
++       type="button"
 +     />
 +   );
 
@@ -442,13 +442,13 @@ describe('common/components/form/button specs', () => {
 +   const props = {
 +     label: 'test label',
 +     onClick: jest.fn(),
-+     type: 'test type',
 +   };
 
 +   // Act
 +   const component = shallow(
 +     <Button
 +       {...props}
++       type="button"
 +     />
 +   );
 
@@ -504,6 +504,30 @@ describe('pages/login/pageContainer tests', () => {
 +   expect(component).toMatchSnapshot();
   });
 });
+```
+
+- If we inspect the `snapshot` file, we see some like:
+
+```javascript
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages/login/pageContainer tests should render as expected 1`] = `
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
+`;
+
+```
+
+- We can see only the first component level due to we are using `shallow`. Even, if we start to use `mount` instead of shallow, we need to we will need to wrap our component with `Provider` component from `react-redux` due to `react-redux@6` is using [React context API](https://reactjs.org/docs/context.html).
+
+- Enzyme has a [dive](https://airbnb.io/enzyme/docs/api/ShallowWrapper/dive.html) method to navigate inside shallow component. This could be a useful but it breaks when using `content API` see this [issue](https://github.com/airbnb/enzyme/issues/1647). Pending to merge some PRs ([#1966](https://github.com/airbnb/enzyme/pull/1966) and [#1960](https://github.com/airbnb/enzyme/pull/1960))
+
+- Meanwhile, we could downgrade `react-redux` dependency and test it using previous context:
+
+```bash
+npm uninstall react-redux -P
+npm install react-redux@5 -P
 ```
 
 - As we see, this spec is failing because we need provide the Redux `store`. It's time to use `redux-mock-store` again:
@@ -575,9 +599,9 @@ import { LoginPageContainer } from './pageContainer';
 
 +   const store = getMockStore(state);
 +   const actionCreatorStub = jest.spyOn(updateFieldActions, 'updateLoginEntityField')
-+   .mockImplementation(() => ({
-+     type: 'test action type',
-+   }));
++   .mockReturnValue(({
++       type: 'test action type',
++     }) as any);
 
 +   // Act
 +   const component = shallow(
@@ -621,9 +645,9 @@ import { LoginPageContainer } from './pageContainer';
 
 +   const store = getMockStore(state);
 +   const actionCreatorStub = jest.spyOn(loginRequestActions, 'loginRequest')
-+     .mockImplementation(() => ({
++     .mockReturnValue(({
 +       type: 'test action type',
-+     }));
++     }) as any);
 
 +   // Act
 +   const component = shallow(
@@ -778,9 +802,9 @@ import { MemberListPageContainer } from './pageContainer';
 +   const store = getMockStore(state);
 
 +   const fetchMembersStub = jest.spyOn(fetchMemberActions, 'fetchMembers')
-+     .mockImplementation(() => ({
++     .mockReturnValue(({
 +       type: 'test action type',
-+     }));
++     }) as any);
 
 +   // Act
 +   const component = mount(
@@ -804,11 +828,13 @@ The advantage using CSS Modules in components is that we have an unique identifi
 
 ### ./src/common/components/panel/components/header.scss
 ```scss
-.header {
+:global(.card-header).header {
   background-color: #28A745;
   color: white;
 }
 ```
+
+> Note: We are using [Css Modules global keyword](https://github.com/css-modules/css-modules#exceptions) to access Bootstrap 4 class name.
 
 - Updating panel header:
 
