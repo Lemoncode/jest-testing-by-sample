@@ -41,8 +41,9 @@ describe('login/actions/loginRequest tests', () => {
       password: 'test password',
     };
 
+    const mockValidation: any = { succeeded: true };
     const validateFormStub = jest.spyOn(validations, 'validateForm')
-      .mockResolvedValue({ succeeded: true });
+      .mockResolvedValue(mockValidation);
 
     const loginEntityModel = {
       login: 'test login model',
@@ -71,8 +72,9 @@ describe('login/actions/loginRequest tests', () => {
       password: 'test password',
     };
 
+    const mockValidation: any = { succeeded: true };
     const validateFormStub = jest.spyOn(validations, 'validateForm')
-      .mockResolvedValue({ succeeded: true });
+      .mockResolvedValue(mockValidation);
 
     const loginEntityModel = {
       login: 'test login model',
@@ -105,8 +107,9 @@ describe('login/actions/loginRequest tests', () => {
       password: 'test password',
     };
 
+    const mockValidation: any = { succeeded: true };
     const validateFormStub = jest.spyOn(validations, 'validateForm')
-      .mockResolvedValue({ succeeded: true });
+      .mockResolvedValue(mockValidation);
 
     const loginEntityModel = {
       login: 'test login model',
@@ -143,14 +146,15 @@ describe('login/actions/loginRequest tests', () => {
       const passwordValidationResult = new FieldValidationResult();
       passwordValidationResult.key = 'password';
 
+      const mockValidation: any = {
+        succeeded: false,
+        fieldErrors: {
+          login: loginValidationResult,
+          password: passwordValidationResult,
+        },
+      };
       const validateFormStub = jest.spyOn(validations, 'validateForm')
-        .mockResolvedValue({
-          succeeded: false,
-          fieldErrors: {
-            login: loginValidationResult,
-            password: passwordValidationResult,
-          },
-        });
+        .mockResolvedValue(mockValidation);
 
       // Act
       const store = getMockStore();
