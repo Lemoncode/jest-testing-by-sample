@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages/members/edit/pageContainer tests should render as expected passin required properties 1`] = `
+<Component
+  member={
+    Object {
+      "avatarUrl": "",
+      "id": -1,
+      "name": "",
+    }
+  }
+  onSave={[Function]}
+  onUpdateField={[Function]}
+/>
+`;

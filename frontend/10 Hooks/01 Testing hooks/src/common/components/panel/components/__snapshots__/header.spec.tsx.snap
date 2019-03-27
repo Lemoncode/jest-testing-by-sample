@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`common/components/panel/header tests should render as expected when passing required properties 1`] = `
+<div
+  className="card-header header"
+>
+  <h3
+    className="panel-title"
+  >
+    test title
+  </h3>
+</div>
+`;

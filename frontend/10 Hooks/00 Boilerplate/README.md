@@ -6,7 +6,6 @@ We will start from sample _09 Travis CI_.
 
 Summary steps:
  - Implement members edit page.
- - Add tests to hooks components.
 
 # Steps to build it
 
@@ -24,7 +23,6 @@ npm install
 import * as React from 'react';
 
 export const MemberEditPage = () => <div>Member edit page</div>;
-
 
 ```
 
