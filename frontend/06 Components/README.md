@@ -834,6 +834,8 @@ The advantage using CSS Modules in components is that we have an unique identifi
 }
 ```
 
+> Note: We are using [Css Modules global keyword](https://github.com/css-modules/css-modules#exceptions) to access Bootstrap 4 class name.
+
 - Updating panel header:
 
 ### ./src/common/components/panel/components/header.tsx
