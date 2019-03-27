@@ -4,7 +4,7 @@ exports[`common/components/form/button specs should render as expected when pass
 <button
   className="btn btn-lg btn-success btn-block"
   onClick={[Function]}
-  type="test type"
+  type="button"
 >
   test label
 </button>

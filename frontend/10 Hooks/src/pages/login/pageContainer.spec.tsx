@@ -2,10 +2,7 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { State } from '../reducers';
-import {
-  createEmptyLoginFormErrors,
-  createEmptyLoginEntity,
-} from './viewModel';
+import { createEmptyLoginFormErrors, createEmptyLoginEntity } from './viewModel';
 import * as updateFieldActions from './actions/updateLoginEntityField';
 import * as loginRequestActions from './actions/loginRequest';
 import { LoginPageContainer } from './pageContainer';
@@ -25,9 +22,13 @@ describe('pages/login/pageContainer tests', () => {
     const store = getMockStore(state);
 
     // Act
-    const component = shallow(<LoginPageContainer />, {
-      context: { store },
-    });
+    const component = shallow(
+      <LoginPageContainer
+      />,
+      {
+        context: { store },
+      }
+    );
 
     // Assert
     expect(component).toMatchSnapshot();
@@ -43,23 +44,24 @@ describe('pages/login/pageContainer tests', () => {
     } as State;
 
     const store = getMockStore(state);
-    const actionCreatorStub = jest
-      .spyOn(updateFieldActions, 'updateLoginEntityField')
-      .mockReturnValue(() => Promise.resolve());
+    const actionCreatorStub = jest.spyOn(updateFieldActions, 'updateLoginEntityField')
+      .mockReturnValue(({
+        type: 'test action type',
+      }) as any);
 
     // Act
-    const component = shallow(<LoginPageContainer />, {
-      context: { store },
-    });
+    const component = shallow(
+      <LoginPageContainer
+      />,
+      {
+        context: { store },
+      }
+    );
 
     component.prop('updateField')('test fieldName', 'test value');
 
     // Assert
-    expect(actionCreatorStub).toHaveBeenCalledWith(
-      state.login.loginEntity,
-      'test fieldName',
-      'test value'
-    );
+    expect(actionCreatorStub).toHaveBeenCalledWith(state.login.loginEntity, 'test fieldName', 'test value');
   });
 
   it('should call to loginRequest action creator when call to doLogin prop', () => {
@@ -72,14 +74,19 @@ describe('pages/login/pageContainer tests', () => {
     } as State;
 
     const store = getMockStore(state);
-    const actionCreatorStub = jest
-      .spyOn(loginRequestActions, 'loginRequest')
-      .mockReturnValue(() => Promise.resolve());
+    const actionCreatorStub: any = jest.spyOn(loginRequestActions, 'loginRequest')
+      .mockReturnValue(({
+        type: 'test action type',
+      }) as any);
 
     // Act
-    const component = shallow(<LoginPageContainer />, {
-      context: { store },
-    });
+    const component = shallow(
+      <LoginPageContainer
+      />,
+      {
+        context: { store },
+      }
+    );
 
     component.prop('doLogin')();
 
