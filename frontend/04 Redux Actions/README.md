@@ -465,8 +465,9 @@ import { loginRequest } from './loginRequest';
 +     password: 'test password',
 +   };
 
++   const mockValidation: any = { succeeded: true };
 +   const validateFormStub = jest.spyOn(validations, 'validateForm')
-+     .mockResolvedValue({ succeeded: true });
++     .mockResolvedValue(mockValidation);
 
 +   const loginEntityModel = {
 +     login: 'test login model',
@@ -507,8 +508,9 @@ import { loginRequest } from './loginRequest';
 +     password: 'test password',
 +   };
 
++   const mockValidation: any = { succeeded: true };
 +   const validateFormStub = jest.spyOn(validations, 'validateForm')
-+     .mockResolvedValue({ succeeded: true });
++     .mockResolvedValue(mockValidation);
 
 +   const loginEntityModel = {
 +     login: 'test login model',
@@ -548,8 +550,9 @@ import { loginRequest } from './loginRequest';
 +     password: 'test password',
 +   };
 
++   const mockValidation: any = { succeeded: true };
 +   const validateFormStub = jest.spyOn(validations, 'validateForm')
-+     .mockResolvedValue({ succeeded: true });
++     .mockResolvedValue(mockValidation);
 
 +   const loginEntityModel = {
 +     login: 'test login model',
@@ -623,14 +626,15 @@ import { routes } from '../../../common/constants/routes';
 +     const passwordValidationResult = new FieldValidationResult();
 +     passwordValidationResult.key = 'password';
 
++     const mockValidation: any = {
++       succeeded: false,
++       fieldErrors: {
++         login: loginValidationResult,
++         password: passwordValidationResult,
++       },
++     };
 +     const validateFormStub = jest.spyOn(validations, 'validateForm')
-+       .mockResolvedValue({
-+         succeeded: false,
-+         fieldErrors: {
-+           login: loginValidationResult,
-+           password: passwordValidationResult,
-+         },
-+       });
++       .mockResolvedValue(mockValidation);
 
 +     // Act
 +     const store = getMockStore();
