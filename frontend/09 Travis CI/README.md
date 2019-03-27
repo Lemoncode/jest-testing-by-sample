@@ -42,9 +42,12 @@ script:
 
 - Now a CI build is running once we merge to master, but if we create a new branch and related pull request, we could see that Travis builds are running on PRs too.
 
-# About Lemoncode
+# About Basefactor + Lemoncode
 
-We are a team of long-term experienced freelance developers, established as a group in 2010.
-We specialize in Front End technologies and .NET. [Click here](http://lemoncode.net/services/en/#en-home) to get more info about us.
+We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+
+[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+
+[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
 For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend

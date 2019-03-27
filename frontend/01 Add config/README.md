@@ -284,7 +284,7 @@ npm run test:watch
 - If we run tests with this config, we will see a warning:
 
 ```
-ts-jest[config] (WARN) TypeScript diagnostics (customize using `[jest-config].globals.ts-jest.diagnostics` option):message TS151001: If you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`). 
+ts-jest[config] (WARN) TypeScript diagnostics (customize using `[jest-config].globals.ts-jest.diagnostics` option):message TS151001: If you have issues related to imports, you should consider setting `esModuleInterop` to `true` in your TypeScript configuration file (usually `tsconfig.json`).
 ```
 
 See [TypeScript esModuleInterop](https://blogs.msdn.microsoft.com/typescript/2018/01/31/announcing-typescript-2-7/#easier-ecmascript-module-interoperability) and [tsconfig options](https://www.typescriptlang.org/docs/handbook/compiler-options.html) for more information
@@ -304,9 +304,12 @@ See [TypeScript esModuleInterop](https://blogs.msdn.microsoft.com/typescript/201
 }
 ```
 
-# About Lemoncode
+# About Basefactor + Lemoncode
 
-We are a team of long-term experienced freelance developers, established as a group in 2010.
-We specialize in Front End technologies and .NET. [Click here](http://lemoncode.net/services/en/#en-home) to get more info about us.
+We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+
+[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+
+[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
 
 For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
