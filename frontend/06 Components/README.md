@@ -828,7 +828,7 @@ The advantage using CSS Modules in components is that we have an unique identifi
 
 ### ./src/common/components/panel/components/header.scss
 ```scss
-.header {
+:global(.card-header).header {
   background-color: #28A745;
   color: white;
 }
