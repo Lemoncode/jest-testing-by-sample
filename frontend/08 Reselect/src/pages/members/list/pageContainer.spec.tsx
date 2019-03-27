@@ -83,9 +83,9 @@ describe('pages/members/list/pageContainer tests', () => {
     const store = getMockStore(state);
 
     const fetchMembersStub = jest.spyOn(fetchMemberActions, 'fetchMembers')
-      .mockImplementation(() => ({
+      .mockReturnValue(({
         type: 'test action type',
-      }));
+      }) as any);
 
     // Act
     const component = mount(
