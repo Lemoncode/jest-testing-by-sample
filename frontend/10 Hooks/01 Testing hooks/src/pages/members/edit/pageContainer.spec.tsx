@@ -4,6 +4,7 @@ import * as memberAPI from '../../../rest-api/api/member';
 import * as model from '../../../rest-api/model';
 import * as vm from './viewModel';
 import * as mappers from './mappers';
+import { history } from '../../../history';
 import { MemberEditPageContainer } from './pageContainer';
 
 describe('pages/members/edit/pageContainer tests', () => {
@@ -105,5 +106,27 @@ describe('pages/members/edit/pageContainer tests', () => {
 
     // Assert
     expect(component).toMatchSnapshot();
+  });
+
+  it('should call to history goBack when fire onSave', () => {
+    // Arrange
+    const props: any = {
+      match: {
+        params: {
+          name: 'test user name',
+        },
+      },
+    };
+
+    const goBackStub = jest.spyOn(history, 'goBack')
+    .mockImplementation(() => {});
+
+    // Act
+    const component = shallow(<MemberEditPageContainer {...props} />);
+
+    component.prop('onSave')();
+
+    // Assert
+    expect(goBackStub).toHaveBeenCalled();
   });
 });
