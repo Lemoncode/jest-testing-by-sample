@@ -93,6 +93,7 @@
         },
         "esSpecCompliant": true
       }
-    ]
+    ],
+    "jsx-no-lambda": false
   }
 }

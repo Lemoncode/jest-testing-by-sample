@@ -238,7 +238,7 @@ export const Form: React.StatelessComponent<Props> = props => (
 ### ./src/pages/members/edit/components/index.ts
 
 ```javascript
-export * from './form'
+export * from './form';
 
 ```
 
@@ -283,8 +283,8 @@ import { MemberEditPage } from './page';
 +   const [member, setMember] = React.useState(createEmptyMember());
 
 +   React.useEffect(() => {
-+     fetchMember(name).then(member => {
-+       setMember(mapMemberModelToVM(member));
++     fetchMember(name).then(modelMember => {
++       setMember(mapMemberModelToVM(modelMember));
 +     });
 +   }, [name]);
 

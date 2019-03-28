@@ -10,8 +10,8 @@ const useLoadMember = (name: string) => {
   const [member, setMember] = React.useState(createEmptyMember());
 
   React.useEffect(() => {
-    fetchMember(name).then(member => {
-      setMember(mapMemberModelToVM(member));
+    fetchMember(name).then(modelMember => {
+      setMember(mapMemberModelToVM(modelMember));
     });
   }, [name]);
 
