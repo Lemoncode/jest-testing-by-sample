@@ -207,39 +207,16 @@ import { MemberEditPageContainer } from './pageContainer';
 
 ```diff
 ...
-  it('should call to mapMemberModelToVM on mount', () => {
+- it('should call to mapMemberModelToVM on mount', () => {
++ it('should call to mapMemberModelToVM on mount', done => {
     // Arrange
-    const props: any = {
-      match: {
-        params: {
-          name: 'test user name',
-        },
-      },
-    };
-
-    const mockMember: model.Member = {
-      id: 1,
-      login: 'testLogin',
-      avatar_url: 'testAvatarUrl',
-    };
-    const fetchMemberStub = jest
-      .spyOn(memberAPI, 'fetchMember')
-      .mockResolvedValue(mockMember);
-
-    const mockVmMember: vm.Member = {
-      id: 1,
-      name: 'testName',
-      avatarUrl: 'testAvatarUrl',
-    };
-    const mapperStub = jest
-      .spyOn(mappers, 'mapMemberModelToVM')
-      .mockReturnValue(mockVmMember);
-
-    // Act
-    const component = mount(<MemberEditPageContainer {...props} />);
+...
 
     // Assert
-    expect(mapperStub).toHaveBeenCalledWith(mockMember);
++   setImmediate(() => {
+      expect(mapperStub).toHaveBeenCalledWith(mockMember);
++     done();
++   });
   });
 ```
 
