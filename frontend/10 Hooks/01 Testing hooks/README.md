@@ -25,7 +25,7 @@ import { shallow } from 'enzyme';
 import { MemberEditPageContainer } from './pageContainer';
 
 describe('pages/members/edit/pageContainer tests', () => {
-  it('should render as expected passin required properties', () => {
+  it('should render as expected feeding required properties', () => {
     // Arrange
 
     // Act
@@ -47,7 +47,7 @@ import { shallow } from 'enzyme';
 import { MemberEditPageContainer } from './pageContainer';
 
 describe('pages/members/edit/pageContainer tests', () => {
-  it('should render as expected passin required properties', () => {
+  it('should render as expected feeding required properties', () => {
     // Arrange
 +   const props: any = {
 +     match: {
@@ -72,7 +72,7 @@ describe('pages/members/edit/pageContainer tests', () => {
 ```javascript
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages/members/edit/pageContainer tests should render as expected passin required properties 1`] = `
+exports[`pages/members/edit/pageContainer tests should render as expected feeding required properties 1`] = `
 <Component
   member={
     Object {

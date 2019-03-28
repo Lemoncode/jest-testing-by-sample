@@ -7,7 +7,7 @@ import * as mappers from './mappers';
 import { MemberEditPageContainer } from './pageContainer';
 
 describe('pages/members/edit/pageContainer tests', () => {
-  it('should render as expected passin required properties', () => {
+  it('should render as expected feeding required properties', () => {
     // Arrange
     const props: any = {
       match: {
