@@ -87,4 +87,23 @@ describe('pages/members/edit/pageContainer tests', () => {
       done();
     });
   });
+
+  it('should update member when fire onUpdateField', () => {
+    // Arrange
+    const props: any = {
+      match: {
+        params: {
+          name: 'test user name',
+        },
+      },
+    };
+
+    // Act
+    const component = shallow(<MemberEditPageContainer {...props} />);
+
+    component.prop('onUpdateField')('name', 'updated name');
+
+    // Assert
+    expect(component).toMatchSnapshot();
+  });
 });

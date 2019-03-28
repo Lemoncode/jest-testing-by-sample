@@ -13,3 +13,17 @@ exports[`pages/members/edit/pageContainer tests should render as expected feedin
   onUpdateField={[Function]}
 />
 `;
+
+exports[`pages/members/edit/pageContainer tests should update member when fire onUpdateField 1`] = `
+<Component
+  member={
+    Object {
+      "avatarUrl": "",
+      "id": -1,
+      "name": "updated name",
+    }
+  }
+  onSave={[Function]}
+  onUpdateField={[Function]}
+/>
+`;

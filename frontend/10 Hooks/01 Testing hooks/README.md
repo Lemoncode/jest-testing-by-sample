@@ -202,7 +202,6 @@ import { MemberEditPageContainer } from './pageContainer';
 
 - We saw that test is failing, due to we must use [act](https://reactjs.org/docs/test-utils.html#act) when there is some React state update:
 
-
 ### ./src/pages/members/edit/pageContainer.spec.tsx
 
 ```diff
@@ -218,6 +217,34 @@ import { MemberEditPageContainer } from './pageContainer';
 +     done();
 +   });
   });
+```
+
+- Should update member when fire onUpdateField:
+
+### ./src/pages/members/edit/pageContainer.spec.tsx
+
+```diff
+...
+
++ it('should update member when fire onUpdateField', () => {
++   // Arrange
++   const props: any = {
++     match: {
++       params: {
++         name: 'test user name',
++       },
++     },
++   };
+
++   // Act
++   const component = shallow(<MemberEditPageContainer {...props} />);
+
++   component.prop('onUpdateField')('name', 'updated name');
+
++   // Assert
++   expect(component).toMatchSnapshot();
++ });
+
 ```
 
 # About Basefactor + Lemoncode
